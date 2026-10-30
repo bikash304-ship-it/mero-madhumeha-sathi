@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="ne">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b4c8f">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>मेरो मधुमेह साथी</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;700;800&family=Tiro+Devanagari+Hindi&display=swap">
+<style>
+/* Layout: one calm column, one big action per row, status shown as colour + word + shape. */
+:root{
+  --bg:#f3f6fa; --surface:#ffffff; --sunk:#e7edf5; --ink:#12203a; --muted:#46566f; --line:#cfd9e6;
+  --accent:#1b4c8f; --accent-ink:#ffffff; --accent-soft:#dce8f8;
+  --ok:#1b7243; --ok-soft:#dcf1e4; --high:#9a5200; --high-soft:#fbe9d2;
+  --low:#b9232b; --low-soft:#fbdfe0; --attn:#86197a; --attn-soft:#f5dcf1;
+  --font-ui:"Mukta","Noto Sans Devanagari","Nirmala UI","Mangal",system-ui,sans-serif;
+  --font-display:"Tiro Devanagari Hindi","Mukta","Noto Serif Devanagari",serif;
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1521; --surface:#172131; --sunk:#202c40; --ink:#eef3fa; --muted:#aab7ca; --line:#2c3a52;
+  --accent:#7cb0ff; --accent-ink:#0a1628; --accent-soft:#1f3354;
+  --ok:#5fd08f; --ok-soft:#173826; --high:#f3ab52; --high-soft:#3b2a12;
+  --low:#ff7a7f; --low-soft:#431a1d; --attn:#ea86de; --attn-soft:#3b1836; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1521; --surface:#172131; --sunk:#202c40; --ink:#eef3fa; --muted:#aab7ca; --line:#2c3a52;
+  --accent:#7cb0ff; --accent-ink:#0a1628; --accent-soft:#1f3354;
+  --ok:#5fd08f; --ok-soft:#173826; --high:#f3ab52; --high-soft:#3b2a12;
+  --low:#ff7a7f; --low-soft:#431a1d; --attn:#ea86de; --attn-soft:#3b1836; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--font-ui);font-size:20px;line-height:1.5;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.25}
+h2{font-size:1.45rem;font-weight:800}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+svg.i{width:1.3em;height:1.3em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:10px;padding-block:12px;max-width:560px;margin:0 auto}
+.top .name{flex:1;font-weight:800;font-size:1.05rem;color:var(--accent)}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:56px;min-height:56px;border-radius:16px;background:var(--surface);border:2px solid var(--line);font-weight:700;font-size:1rem;padding:0 12px}
+.iconbtn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* greeting */
+.greet{font-family:var(--font-display);font-size:2.1rem;line-height:1.2}
+.date{font-size:1.1rem;color:var(--muted);font-weight:500}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.spread{justify-content:space-between}
+
+/* reading card */
+.reading{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.reading .big{font-size:3.4rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.reading .unit{font-size:1.05rem;color:var(--muted);font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:1.15rem;padding:6px 16px;border-radius:999px;border:2px solid currentColor}
+.pill::before{content:"";width:12px;height:12px;border-radius:3px;background:currentColor}
+.st-low{color:var(--low);background:var(--low-soft)}
+.st-in{color:var(--ok);background:var(--ok-soft)}
+.st-high{color:var(--high);background:var(--high-soft)}
+.st-attn{color:var(--attn);background:var(--attn-soft)}
+.st-low::before{border-radius:0;clip-path:polygon(50% 100%,0 0,100% 0)}
+.st-high::before{border-radius:0;clip-path:polygon(50% 0,0 100%,100% 100%)}
+.st-in::before{border-radius:50%}
+.st-attn::before{border-radius:0;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+
+/* big buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;min-height:72px;padding:12px 20px;border-radius:var(--r);font-weight:800;font-size:1.3rem;text-align:center;width:100%;background:var(--surface);border:2px solid var(--line)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.soft{background:var(--accent-soft);border-color:transparent;color:var(--ink)}
+.btn.danger{background:var(--low);color:#fff;border-color:var(--low)}
+.btn.slim{min-height:58px;font-size:1.1rem}
+.btn:active{transform:translateY(1px)}
+.btn svg.i{width:1.6em;height:1.6em}
+.mic{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 0}
+.mic button{width:120px;height:120px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px var(--accent-soft)}
+.mic button svg.i{width:56px;height:56px}
+.mic .lbl{font-weight:800;font-size:1.3rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:110px;border-radius:var(--r);background:var(--surface);border:2px solid var(--line);font-weight:700;font-size:1.15rem;text-align:center;padding:12px}
+.tile svg.i{width:40px;height:40px;color:var(--accent)}
+.choices{display:flex;flex-direction:column;gap:12px}
+
+/* list rows */
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.li:first-child{border-top:0}
+.li .t{flex:1;min-width:0}
+.li .v{font-weight:800;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.95rem;font-weight:700;padding:3px 12px;border-radius:999px;background:var(--sunk);color:var(--muted)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--high-soft);color:var(--high)}
+.chip.bad{background:var(--low-soft);color:var(--low)}
+
+/* keypad */
+.display{font-size:3.6rem;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;background:var(--sunk);border-radius:var(--r);padding:8px;min-height:96px;letter-spacing:.04em}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pad button{min-height:76px;border-radius:16px;background:var(--surface);border:2px solid var(--line);font-size:2rem;font-weight:800}
+.pad button.fn{font-size:1.1rem;background:var(--sunk)}
+
+/* sym chips */
+.syms{display:flex;flex-wrap:wrap;gap:10px}
+.sym{min-height:56px;padding:8px 16px;border-radius:14px;background:var(--surface);border:2px solid var(--line);font-weight:700;font-size:1.05rem}
+.sym[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* guidance */
+.level{font-size:.95rem;font-weight:800;letter-spacing:.04em;padding:4px 12px;border-radius:8px;align-self:flex-start}
+.lv-routine{background:var(--ok-soft);color:var(--ok)}
+.lv-urgent{background:var(--high-soft);color:var(--high)}
+.lv-emerg{background:var(--low);color:#fff}
+.guide{font-size:1.25rem;line-height:1.6}
+.guide li{margin-bottom:8px}
+.guide ol,.guide ul{padding-left:1.2em;margin:0}
+.plan{border-left:6px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:10px;font-size:1.05rem}
+.emerg{background:var(--low-soft);border-color:var(--low)}
+.callnum{font-size:3rem;font-weight:800;color:var(--low);letter-spacing:.05em;text-align:center}
+.notice{background:var(--high-soft);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:1rem;border:2px solid var(--high)}
+
+/* chart */
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font-family:var(--font-ui);font-size:12px}
+.tabs{display:flex;gap:8px;background:var(--sunk);padding:6px;border-radius:16px}
+.tabs button{flex:1;min-height:52px;border-radius:12px;font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+/* forms */
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:1rem}
+label.f span.h{font-weight:400;color:var(--muted);font-size:.9rem}
+input[type=text],input[type=number],input[type=time],input[type=tel],select,textarea{width:100%;min-height:56px;border-radius:12px;border:2px solid var(--line);background:var(--bg);padding:8px 12px;font-size:1.1rem}
+textarea{min-height:96px}
+.check{display:flex;gap:12px;align-items:flex-start;font-weight:500;font-size:1rem}
+.check input{width:28px;height:28px;flex:none;margin-top:2px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+details.card summary{font-weight:800;font-size:1.15rem;cursor:pointer;min-height:44px;display:flex;align-items:center}
+
+/* overlays */
+.ov{position:fixed;inset:0;z-index:20;background:rgba(8,14,26,.55);display:flex;align-items:flex-end;justify-content:center;padding:0 max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--surface);border-radius:24px;width:100%;max-width:560px;max-height:calc(100% - 24px - env(safe-area-inset-top,0px));overflow:auto;padding:22px;display:flex;flex-direction:column;gap:14px}
+.listen{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.ring{width:110px;height:110px;border-radius:50%;background:var(--low);color:#fff;display:flex;align-items:center;justify-content:center}
+.ring.idle{background:var(--sunk);color:var(--muted)}
+.ring svg.i{width:52px;height:52px}
+@media (prefers-reduced-motion:no-preference){.ring.live{animation:pulse 1.4s ease-in-out infinite}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--low-soft)}50%{box-shadow:0 0 0 18px var(--low-soft)}}
+.heard{font-size:1.4rem;font-weight:700;min-height:2em}
+.say{font-size:1.2rem}
+.examples{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.examples button{background:var(--sunk);border-radius:999px;padding:8px 14px;font-size:1rem;font-weight:600;min-height:48px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:14px;font-weight:700;z-index:30;max-width:90%}
+.foot{text-align:center;padding-top:8px}
+.link{color:var(--accent);font-weight:700;text-decoration:underline;min-height:48px;padding:8px}
+.demo-tag{font-size:.8rem;font-weight:800;color:var(--attn);border:1.5px solid var(--attn);border-radius:6px;padding:0 6px}
+.timer{font-size:2.6rem;font-weight:800;text-align:center;font-variant-numeric:tabular-nums}
+@media (max-width:380px){.greet{font-size:1.8rem}.reading .big{font-size:2.9rem}.f2{grid-template-columns:1fr}}
+</style>
+
+<header class="top" id="top"></header>
+<main class="wrap" id="main" aria-live="polite"></main>
+<div id="overlay"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- icons ---------- */
+const IC={
+ home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
+ drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',
+ pill:'<rect x="3" y="9" width="18" height="7" rx="3.5" transform="rotate(-35 12 12.5)"/><path d="M9.5 8.5l5 7"/>',
+ chart:'<path d="M4 4v16h16"/><path d="M7 15l4-5 3 3 5-6"/>',
+ help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6V14"/><path d="M12 17.5v.01"/>',
+ speaker:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/>',
+ back:'<path d="M15 5l-7 7 7 7"/>',
+ phone:'<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+ check:'<path d="M4 12l5 5L20 6"/>',
+ x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ list:'<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>',
+ send:'<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>',
+ people:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 4.8"/>',
+ stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>',
+ keypad:'<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>'
+};
+const ic=(n)=>'<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+IC[n]+'</svg>';
+
+/* ---------- Nepali numerals & words ---------- */
+const NPD='०१२३४५६७८९';
+const np=(x)=>String(x).replace(/[0-9]/g,d=>NPD[d]);
+const toLatinDigits=(s)=>String(s).replace(/[०-९]/g,d=>NPD.indexOf(d));
+const NUMW=['शून्य','एक','दुई','तीन','चार','पाँच','छ','सात','आठ','नौ','दस','एघार','बाह्र','तेह्र','चौध','पन्ध्र','सोह्र','सत्र','अठार','उन्नाइस','बीस','एक्काइस','बाइस','तेइस','चौबीस','पच्चीस','छब्बीस','सत्ताइस','अठ्ठाइस','उनन्तीस','तीस','एकतीस','बत्तीस','तेत्तीस','चौंतीस','पैंतीस','छत्तीस','सैंतीस','अठतीस','उनन्चालीस','चालीस','एकचालीस','बयालीस','त्रिचालीस','चवालीस','पैंतालीस','छयालीस','सतचालीस','अठचालीस','उनन्चास','पचास','एकाउन्न','बाउन्न','त्रिपन्न','चउन्न','पचपन्न','छपन्न','सन्ताउन्न','अन्ठाउन्न','उनन्साठी','साठी','एकसट्ठी','बयसट्ठी','त्रिसट्ठी','चौंसट्ठी','पैंसट्ठी','छयसट्ठी','सतसट्ठी','अठसट्ठी','उनन्सत्तरी','सत्तरी','एकहत्तर','बहत्तर','त्रिहत्तर','चौहत्तर','पचहत्तर','छयहत्तर','सतहत्तर','अठहत्तर','उनासी','असी','एकासी','बयासी','त्रियासी','चौरासी','पचासी','छयासी','सतासी','अठासी','उनान्नब्बे','नब्बे','एकानब्बे','बयानब्बे','त्रियानब्बे','चौरानब्बे','पन्चानब्बे','छयानब्बे','सन्तानब्बे','अन्ठानब्बे','उनान्सय'];
+function words(n){
+  n=Math.round(n*10)/10;
+  if(n%1){const [a,b]=String(n).split('.');return words(+a)+' दशमलव '+b.split('').map(d=>NUMW[+d]).join(' ')}
+  if(n>=1000){const h=Math.floor(n/1000),r=n%1000;return words(h)+' हजार'+(r?' '+words(r):'')}
+  if(n>=100){const h=Math.floor(n/100),r=n%100;return NUMW[h]+' सय'+(r?' '+NUMW[r]:'')}
+  return NUMW[n];
+}
+function norm(s){
+  return toLatinDigits(String(s).toLowerCase())
+   .replace(/ँ/g,'ं').replace(/ी/g,'ि').replace(/ू/g,'ु').replace(/ः/g,'')
+   .replace(/[।,?!"“”'‘’]/g,' ').replace(/(\d)\s*\.\s*(\d)/g,'$1.$2').replace(/\.(?!\d)/g,' ')
+   .replace(/उनान्सय/g,' unansay ').replace(/(सय|हजार)/g,' $1 ').replace(/\s+/g,' ').trim();
+}
+const NUMN={};NUMW.forEach((w,i)=>{NUMN[norm(w)]=i});
+// common spoken variants
+Object.assign(NUMN,{'unansay':99,'दुइ':2,'पांच':5,'सोर':16,'अठारह':18,'उन्नाईस':19,'एक्काईस':21,'बाईस':22,'तेईस':23,'सत्ताईस':27,'अठ्ठाईस':28,'अस्सी':80,'असि':80,'नब्बे':90});
+const HALF_PRE={'डेढ':1.5,'अढाई':2.5,'अढाइ':2.5};
+function parseNumber(text){
+  const t=norm(text);
+  const m=t.match(/\d+(?:\.\d+)?/);
+  if(m) return parseFloat(m[0]);
+  const tk=t.split(' ');
+  let total=0,cur=0,found=false,half=false,dec=null;
+  for(let i=0;i<tk.length;i++){
+    const w=tk[i];
+    if(dec!==null){ if(w in NUMN && NUMN[w]<10){dec+=String(NUMN[w]);continue} else break }
+    if(w==='दशमलव'||w==='पोइन्ट'||w==='point'){dec='';continue}
+    if(w in HALF_PRE){cur+=HALF_PRE[w];found=true;continue}
+    if(w==='साढे'){half=true;continue}
+    if(w==='सय'){cur=((cur||1)+(half?.5:0))*100;half=false;found=true;continue}
+    if(w==='हजार'){total+=((cur||1)+(half?.5:0))*1000;cur=0;half=false;found=true;continue}
+    if(w in NUMN){
+      const v=NUMN[w];
+      if(w==='छ'){ // "छ" is also the verb "is"
+        const nx=tk[i+1], pv=tk[i-1];
+        const nextNum=nx==='सय'||nx==='हजार'||nx==='दशमलव';
+        const alone=!found&&!(nx&&(nx in NUMN));
+        const afterSay=pv==='सय';
+        if(!(nextNum||afterSay||(alone&&tk.length<=2))) continue;
+      }
+      cur+=v;found=true;continue;
+    }
+  }
+  if(!found) return null;
+  let n=total+cur;
+  if(dec) n=parseFloat(Math.floor(n)+'.'+dec);
+  return n;
+}
+
+/* ---------- dates (Bikram Sambat) ---------- */
+const BSM=['बैशाख','जेठ','असार','साउन','भदौ','असोज','कात्तिक','मंसिर','पुस','माघ','फागुन','चैत'];
+const ADM=['जनवरी','फेब्रुअरी','मार्च','अप्रिल','मे','जुन','जुलाई','अगस्ट','सेप्टेम्बर','अक्टोबर','नोभेम्बर','डिसेम्बर'];
+const WD=['आइतबार','सोमबार','मंगलबार','बुधबार','बिहीबार','शुक्रबार','शनिबार'];
+// Month lengths checked against published 2083 calendar; 2084 partially known.
+const BS={2083:{s:[2026,3,14],m:[31,31,32,31,31,31,30,29,30,29,30,30]},2084:{s:[2027,3,14],m:[31,32]}};
+function toBS(d){
+  const day=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  for(const y of Object.keys(BS)){
+    const b=BS[y];const st=new Date(b.s[0],b.s[1],b.s[2]);
+    let diff=Math.round((day-st)/864e5);
+    if(diff<0) continue;
+    for(let i=0;i<b.m.length;i++){ if(diff<b.m[i]) return {y:+y,m:i,d:diff+1}; diff-=b.m[i]; }
+  }
+  return null;
+}
+function fmtDate(d,withWd){
+  const bs=S.profile.calendar==='bs'?toBS(d):null;
+  const core=bs?`${np(bs.y)} ${BSM[bs.m]} ${np(bs.d)}`:`${np(d.getFullYear())} ${ADM[d.getMonth()]} ${np(d.getDate())}`;
+  return (withWd?WD[d.getDay()]+', ':'')+core;
+}
+function shortDate(d){
+  const bs=S.profile.calendar==='bs'?toBS(d):null;
+  return bs?`${BSM[bs.m]} ${np(bs.d)}`:`${ADM[d.getMonth()]} ${np(d.getDate())}`;
+}
+function partOfDay(h){return h>=4&&h<12?'बिहान':h<17&&h>=12?'दिउँसो':h>=17&&h<20?'बेलुका':'राति'}
+function fmtTime(d){const h=d.getHours(),m=d.getMinutes();const h12=h%12||12;return `${partOfDay(h)} ${np(h12)}:${np(String(m).padStart(2,'0'))}`}
+function sayTime(d){const h=d.getHours(),m=d.getMinutes();const h12=h%12||12;return `${partOfDay(h)} ${words(h12)} बजेर ${m?words(m)+' मिनेट':''}`.trim()}
+function timeStrNp(hhmm){const [h,m]=hhmm.split(':').map(Number);const d=new Date();d.setHours(h,m,0,0);return fmtTime(d)}
+const dkey=(d)=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+/* ---------- state ---------- */
+const KEY='mero-madhumeha-sathi.v1';
+const DEF={v:1,profile:{name:'आमा',age:'',dtype:'unknown',unit:'mg',insulin:'unknown',
+  targets:{fastLo:80,fastHi:130,postHi:180,bedLo:90,bedHi:150,low:70,severeLow:54,veryHigh:300},
+  targetsConfirmed:false,targetsBy:'',lowPlan:'',highPlan:'',ketonePlan:false,ketoneNote:'',
+  country:'',emergencyNum:'',contactName:'',contactPhone:'',reportName:'',reportPhone:'',reportConsent:false,
+  meals:'',sleep:'',calendar:'bs',autoSpeak:true,handsFree:false,setupDone:false},
+  readings:[],reminders:[],log:{},snooze:{},followUp:null};
+let S, storageOK=true;
+function load(){
+  let raw=null;
+  try{raw=localStorage.getItem(KEY)}catch(e){storageOK=false}
+  let d={};try{d=raw?JSON.parse(raw):{}}catch(e){d={}}
+  S=Object.assign({},JSON.parse(JSON.stringify(DEF)),d);
+  S.profile=Object.assign({},DEF.profile,d.profile||{});
+  S.profile.targets=Object.assign({},DEF.profile.targets,(d.profile||{}).targets||{});
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));storageOK=true}catch(e){storageOK=false}}
+const uid=()=>Math.random().toString(36).slice(2,10);
+
+/* ---------- units & classification ---------- */
+const MG=18.0182;
+const unitLbl=(u)=>u==='mmol'?'मि.मो./लि.':'मि.ग्रा./डे.लि.';
+const unitSay=(u)=>u==='mmol'?'मिलिमोल प्रति लिटर':'मिलिग्राम प्रति डेसिलिटर';
+const toMg=(v,u)=>u==='mmol'?v*MG:v;
+function inUnit(mg,u){u=u||S.profile.unit;return u==='mmol'?Math.round(mg/MG*10)/10:Math.round(mg)}
+const showVal=(mg,u)=>np(inUnit(mg,u));
+const TIMING={fast:'खाली पेट / खाना खानुअघि',post:'खाना खाएको १–२ घण्टापछि',bed:'सुत्नुअघि',other:'अन्य समय'};
+const TIMING_SAY={fast:'खाना खानुअघि',post:'खाना खाएपछि',bed:'सुत्नुअघि',other:'अन्य समयमा'};
+function range(timing){
+  const t=S.profile.targets;
+  if(timing==='fast') return [t.fastLo,t.fastHi];
+  if(timing==='post') return [t.low,t.postHi];
+  if(timing==='bed') return [t.bedLo,t.bedHi];
+  return [t.fastLo,t.postHi];
+}
+function classify(mg,timing){
+  const t=S.profile.targets;
+  if(mg<t.severeLow) return 'attn-low';
+  if(mg<t.low) return 'low';
+  if(mg>=t.veryHigh) return 'attn-high';
+  const [lo,hi]=range(timing);
+  if(mg>hi) return 'high';
+  if(mg<lo) return 'below'; // under target but not a hypo warning
+  return 'in';
+}
+function stInfo(c){
+  const conf=S.profile.targetsConfirmed;
+  return {
+    'attn-low':{cls:'st-attn',w:'जाँच आवश्यक',sub:'धेरै कम'},
+    low:{cls:'st-low',w:'कम',sub:''},
+    below:{cls:'st-high',w:'लक्ष्यभन्दा अलि कम',sub:''},
+    in:{cls:'st-in',w:conf?'सामान्य दायरा':'साधारण दायराभित्र',sub:conf?'डाक्टरको लक्ष्यअनुसार':'साधारण लक्ष्यअनुसार'},
+    high:{cls:'st-high',w:'बढी',sub:''},
+    'attn-high':{cls:'st-attn',w:'जाँच आवश्यक',sub:'धेरै बढी'}
+  }[c];
+}
+const pill=(c)=>{const s=stInfo(c);return `<span class="pill ${s.cls}">${s.w}</span>`};
+const SYM={shake:'काँप्ने / पसिना आउने',dizzy:'रिँगटा लाग्ने',hungry:'धेरै भोक लाग्ने',confused:'अन्योल / होस नभएजस्तो',thirst:'धेरै तिर्खा',urine:'धेरै पिसाब',vomit:'बान्ता',belly:'पेट दुख्ने',breath:'सास फेर्न गाह्रो',sleepy:'धेरै निद्रा / थकान',none:'कुनै लक्षण छैन'};
+const SEVERE=['confused','vomit','belly','breath','sleepy'];
+
+/* ---------- speech out ---------- */
+let voice=null,voiceKind='none',lastSpoken='';
+function pickVoice(){
+  if(!('speechSynthesis' in window)) {voiceKind='none';return}
+  const vs=speechSynthesis.getVoices();
+  voice=vs.find(v=>/^ne/i.test(v.lang))||null;
+  if(voice){voiceKind='ne';return}
+  voice=vs.find(v=>/^hi/i.test(v.lang))||vs.find(v=>/^mr/i.test(v.lang))||null;
+  voiceKind=voice?'hi':(vs.length?'other':'none');
+}
+if('speechSynthesis' in window){pickVoice();try{speechSynthesis.onvoiceschanged=pickVoice}catch(e){}}
+function say(text,after){
+  lastSpoken=text;
+  if(!('speechSynthesis' in window)||voiceKind==='none'||voiceKind==='other'){ if(after) after(); return }
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text.replace(/[०-९]+(\.[०-९]+)?/g,m=>words(parseFloat(toLatinDigits(m)))));
+    u.voice=voice;u.lang=voice.lang;u.rate=.88;
+    if(after) u.onend=after;
+    speechSynthesis.speak(u);
+  }catch(e){ if(after) after(); }
+}
+const autoSay=(t,after)=>{ if(S.profile.autoSpeak) say(t,after); else {lastSpoken=t; if(after) after();} };
+
+/* ---------- speech in ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null,listening=false,micBroken='';
+let awaiting=null; // context for the next voice answer
+function startListen(){
+  openVoice();
+  if(!SR){micBroken='none';renderVoice();return}
+  if(micBroken){renderVoice();return}
+  try{
+    try{speechSynthesis.cancel()}catch(e){}
+    rec=new SR();rec.lang='ne-NP';rec.interimResults=true;rec.maxAlternatives=3;rec.continuous=false;
+    let finalText='';
+    rec.onresult=(e)=>{let txt='';for(const r of e.results){txt+=r[0].transcript;if(r.isFinal){finalText=r[0].transcript}}if(V){V.heard=txt;renderVoice()}};
+    rec.onerror=(e)=>{listening=false;if(e.error==='not-allowed'||e.error==='service-not-allowed'||e.error==='audio-capture'){micBroken='blocked'}else if(e.error==='no-speech'){V.reply='केही सुनिनँ, आमा। फेरि माइक थिच्नुहोस्।';say(V.reply)}else if(e.error==='language-not-supported'){micBroken='lang'}renderVoice()};
+    rec.onend=()=>{listening=false;const t=finalText||V.heard;renderVoice();if(t&&V&&!V.done){V.done=true;handleUtterance(t)}};
+    if(V){V.heard='';V.done=false}listening=true;renderVoice();rec.start();
+  }catch(e){listening=false;micBroken='blocked';renderVoice()}
+}
+function stopListen(){try{rec&&rec.stop()}catch(e){}listening=false;renderVoice()}
+
+/* ---------- views ---------- */
+let view='home',viewArg=null;
+const $=(s,r=document)=>r.querySelector(s);
+const main=$('#main'),top=$('#top'),ovEl=$('#overlay');
+function go(v,arg){view=v;viewArg=arg===undefined?null:arg;render();window.scrollTo(0,0)}
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2600)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function renderTop(){
+  top.innerHTML=`${view!=='home'?`<button class="iconbtn" data-act="home" aria-label="घर">${ic('home')}<span>घर</span></button>`:''}
+  <div class="name">मेरो मधुमेह साथी</div>
+  <button class="iconbtn ${S.profile.autoSpeak?'on':''}" data-act="toggleSpeak" aria-pressed="${S.profile.autoSpeak}" aria-label="आवाज">${ic('speaker')}</button>
+  <button class="iconbtn" data-act="repeat" aria-label="फेरि सुनाउनुहोस्">फेरि</button>`;
+}
+function sorted(){return S.readings.slice().sort((a,b)=>b.ts-a.ts)}
+function readingsSince(days){const from=Date.now()-days*864e5;return sorted().filter(r=>r.ts>=from)}
+function todays(){const k=dkey(new Date());return sorted().filter(r=>dkey(new Date(r.ts))===k)}
+
+function homeView(){
+  const now=new Date();const last=sorted()[0];
+  const nm=esc(S.profile.name||'आमा');
+  let h=`<section class="card" style="border:0;background:transparent;padding:4px 0">
+    <h1 class="greet">नमस्ते ${nm}! आज तपाईंलाई कस्तो छ?</h1>
+    <p class="date">${fmtDate(now,true)}</p></section>`;
+  if(!storageOK) h+=`<p class="notice">यो फोनमा रेकर्ड सुरक्षित गर्न सकिएन। पेज बन्द गर्दा रेकर्ड हराउन सक्छ।</p>`;
+  if(!S.profile.setupDone){
+    h+=`<section class="card"><h3>सुरु गर्नुअघि</h3><p>परिवारको सदस्य वा डाक्टरको सहयोगमा लक्ष्य दायरा, औषधि र आपतकालीन नम्बर राख्नुहोस्।</p>
+    <button class="btn soft slim" data-act="go" data-v="family">${ic('people')} परिवारका लागि सेटिङ</button>
+    ${S.readings.length?'':`<button class="btn slim" data-act="demo">नमुना रेकर्ड हेर्नुहोस्</button>`}</section>`;
+  }
+  if(S.followUp){h+=followCard()}
+  if(last){
+    const c=classify(last.v,last.timing);const d=new Date(last.ts);
+    h+=`<section class="card" aria-label="पछिल्लो चिनी जाँच">
+      <div class="row spread"><span class="muted">पछिल्लो जाँच ${last.demo?'<span class="demo-tag">नमुना</span>':''}</span>
+      <button class="iconbtn" data-act="speakLast" aria-label="सुन्नुहोस्">${ic('speaker')} सुन्नुहोस्</button></div>
+      <div class="reading"><span class="big">${showVal(last.v)}</span><span class="unit">${unitLbl(S.profile.unit)}</span></div>
+      <div class="row">${pill(c)}<span class="muted small">${stInfo(c).sub}</span></div>
+      <p class="muted">${dkey(d)===dkey(now)?'आज':shortDate(d)}, ${fmtTime(d)} · ${TIMING[last.timing]}</p>
+    </section>`;
+  } else {
+    h+=`<section class="card"><p class="muted">अहिलेसम्म कुनै चिनी जाँच लेखिएको छैन।</p><p>तलको ठूलो बटन थिचेर पहिलो जाँच लेख्नुहोस्।</p></section>`;
+  }
+  h+=`<button class="btn primary" data-act="add">${ic('drop')} चिनी जाँच लेख्नुहोस्</button>
+  <div class="mic"><button data-act="mic" aria-label="बोलेर भन्नुहोस्">${ic('mic')}</button><span class="lbl">बोलेर भन्नुहोस्</span></div>
+  <div class="grid2">
+    <button class="tile" data-act="go" data-v="today">${ic('list')}आजको विवरण</button>
+    <button class="tile" data-act="go" data-v="meds">${ic('pill')}औषधि सम्झना</button>
+    <button class="tile" data-act="go" data-v="report">${ic('chart')}मेरो रिपोर्ट</button>
+    <button class="tile" data-act="go" data-v="help">${ic('help')}मद्दत</button>
+  </div>`;
+  const rems=todayReminders();
+  h+=`<section class="card"><h3>आजका सम्झना</h3>${rems.length?`<div class="list">${rems.map(remRow).join('')}</div>`:'<p class="muted">आजका लागि कुनै सम्झना राखिएको छैन।</p>'}</section>`;
+  const wk=readingsSince(7);
+  h+=`<section class="card"><div class="row spread"><h3>पछिल्लो ७ दिन</h3><span class="muted small">${np(wk.length)} पटक जाँच</span></div>${wk.length?chart(wk,7):'<p class="muted">जाँच लेखेपछि यहाँ चित्र देखिन्छ।</p>'}</section>
+  <div class="foot"><button class="link" data-act="go" data-v="family">परिवारका लागि सेटिङ</button></div>`;
+  return h;
+}
+function followCard(){
+  const left=S.followUp.at-Date.now();
+  if(left<=0) return `<section class="card emerg"><h3>फेरि जाँच गर्ने समय भयो</h3><p>चिनी कम भएपछि १५ मिनेट भयो। अहिले फेरि जाँच गर्नुहोस्।</p><button class="btn primary" data-act="add">${ic('drop')} अहिले जाँच लेख्नुहोस्</button><button class="btn slim" data-act="clearFollow">पछि</button></section>`;
+  const m=Math.ceil(left/60000);
+  return `<section class="card"><h3>फेरि जाँच गर्ने</h3><p class="timer" id="fuTimer">${np(m)} मिनेट</p><p class="muted small">यो पेज खुला रहँदा मात्र समय भएपछि सम्झाउँछ।</p><button class="btn slim" data-act="clearFollow">रद्द गर्नुहोस्</button></section>`;
+}
+
+/* ---- reminders ---- */
+const REMT={med:'औषधि',insulin:'इन्सुलिन',check:'चिनी जाँच',meal:'खाना',appt:'डाक्टरको भेट'};
+const took=(r)=>r.insulin?'लिइसकेँ':'खाइसकेँ';
+const tookQ=(r)=>`${r.label} ${r.insulin?'लिइसक्नुभयो':'खाइसक्नुभयो'}?`;
+const notTook=(r)=>r.insulin?'आज लिएको छैन':'आज खाएको छैन';
+function todayReminders(){return S.reminders.filter(r=>r.on).slice().sort((a,b)=>a.time.localeCompare(b.time))}
+function remStatus(r){const l=(S.log[dkey(new Date())]||{})[r.id];if(l) return l.st;const [h,m]=r.time.split(':').map(Number);const t=new Date();t.setHours(h,m,0,0);return Date.now()>t.getTime()+3*36e5&&r.type==='med'?'missed':Date.now()>=t.getTime()?'due':'later'}
+function remChip(st){return {taken:'<span class="chip ok">भयो</span>',done:'<span class="chip ok">भयो</span>',skipped:'<span class="chip bad">खाएको छैन</span>',missed:'<span class="chip bad">छुट्यो</span>',due:'<span class="chip warn">समय भयो</span>',later:'<span class="chip">बाँकी</span>'}[st]}
+function remRow(r){return `<div class="li"><span>${ic(r.type==='med'?'pill':r.type==='check'?'drop':r.type==='meal'?'clock':'people')}</span><div class="t"><div style="font-weight:700">${esc(r.label)} ${r.demo?'<span class="demo-tag">नमुना</span>':''}</div><div class="muted small">${timeStrNp(r.time)}</div></div>${remChip(remStatus(r))}</div>`}
+
+/* ---- add reading wizard ---- */
+let F=null;
+function newFlow(prefill,via){F={step:'num',val:prefill!=null?String(prefill):'',unit:S.profile.unit,timing:null,symptoms:[],note:'',via:via||'manual'};}
+function addView(){
+  const f=F;
+  if(f.step==='num'){
+    return `<h2>रगतमा चिनी कति देखियो?</h2>
+    <div class="display" aria-live="polite">${f.val?np(f.val):'<span class="muted">—</span>'}</div>
+    <p class="muted" style="text-align:center">${unitLbl(f.unit)} <button class="link" data-act="swapUnit">एकाइ बदल्नुहोस्</button></p>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-act="key" data-k="${n}">${np(n)}</button>`).join('')}
+      <button class="fn" data-act="key" data-k="${f.unit==='mmol'?'.':'del'}">${f.unit==='mmol'?'दशमलव':'मेटाउनुहोस्'}</button>
+      <button data-act="key" data-k="0">${np(0)}</button>
+      <button class="fn" data-act="key" data-k="${f.unit==='mmol'?'del':'clr'}">${f.unit==='mmol'?'मेटाउनुहोस्':'सबै मेटाउनुहोस्'}</button></div>
+    <button class="btn primary" data-act="numNext" ${f.val?'':'disabled style="opacity:.5"'}>अगाडि</button>
+    <div class="mic"><button data-act="mic" aria-label="बोलेर भन्नुहोस्">${ic('mic')}</button><span class="lbl">बोलेर भन्नुहोस्</span></div>`;
+  }
+  if(f.step==='time'){
+    return `<h2>कहिले जाँच्नुभयो?</h2>
+    <div class="choices">${Object.keys(TIMING).map(k=>`<button class="btn ${k==='fast'?'':''}" data-act="timing" data-t="${k}">${TIMING[k]}</button>`).join('')}</div>
+    <div class="mic"><button data-act="mic" aria-label="बोलेर भन्नुहोस्">${ic('mic')}</button><span class="lbl">बोलेर भन्नुहोस्</span></div>`;
+  }
+  if(f.step==='sym'){
+    return `<h2>अहिले कुनै लक्षण छ?</h2><p class="muted">छ भने थिच्नुहोस्। छैन भने "अगाडि" थिच्नुहोस्।</p>
+    <div class="syms">${Object.keys(SYM).map(k=>`<button class="sym" data-act="sym" data-s="${k}" aria-pressed="${f.symptoms.includes(k)}">${SYM[k]}</button>`).join('')}</div>
+    <label class="f">टिप्पणी (खाना, हिँडडुल, बिरामी, औषधि)<span class="h">चाहेमा मात्र</span><input type="text" id="noteIn" value="${esc(f.note)}"></label>
+    <button class="btn primary" data-act="symNext">अगाडि</button>`;
+  }
+  if(f.step==='confirm'){
+    const v=parseFloat(f.val);const mg=toMg(v,f.unit);
+    const odd=f.unit==='mg'?(v<20||v>600):(v<1.1||v>33.3);
+    const maybeMmol=f.unit==='mg'&&v>=1&&v<=33&&v%1===0&&v<35;
+    return `<h2>ठीक छ, जाँच गरौँ</h2>
+    <section class="card"><div class="reading"><span class="big">${np(f.val)}</span><span class="unit">${unitLbl(f.unit)}</span></div>
+    <p>${TIMING[f.timing]}</p>
+    ${f.symptoms.length?`<p class="muted">लक्षण: ${f.symptoms.map(s=>SYM[s]).join(', ')}</p>`:''}
+    ${f.note?`<p class="muted">टिप्पणी: ${esc(f.note)}</p>`:''}</section>
+    ${odd?`<p class="notice">यो अंक असामान्य देखिन्छ। कृपया मिटरमा फेरि हेर्नुहोस्।</p>`:''}
+    ${maybeMmol?`<p class="notice">यो अंक सानो छ। तपाईंको मिटरले मि.मो./लि. देखाउँछ कि? <button class="link" data-act="swapUnitConfirm">मि.मो./लि. मा बदल्नुहोस्</button></p>`:''}
+    <button class="btn primary" data-act="saveReading">${ic('check')} हो, सही छ — राख्नुहोस्</button>
+    <button class="btn" data-act="restartAdd">${ic('x')} होइन, फेरि लेख्छु</button>`;
+  }
+}
+function confirmSpeech(){
+  const v=parseFloat(F.val);
+  return `तपाईंको सुगर ${np(F.val)} ${unitSay(F.unit)}, ${TIMING_SAY[F.timing]}। सही हो?`;
+}
+
+/* ---- guidance after saving ---- */
+function lastHighStreak(){const r=sorted().filter(x=>x.ts>Date.now()-48*36e5).slice(0,3);return r.length===3&&r.every(x=>['high','attn-high'].includes(classify(x.v,x.timing)))}
+function planBox(kind){
+  const p=kind==='low'?S.profile.lowPlan:S.profile.highPlan;
+  return p?`<div class="plan"><strong>तपाईंको डाक्टरको योजना:</strong><br>${esc(p).replace(/\n/g,'<br>')}</div>`
+          :`<div class="plan">तपाईंको डाक्टरको आफ्नै योजना अझै यहाँ राखिएको छैन। माथिको कुरा साधारण सल्लाह मात्र हो।</div>`;
+}
+const emNum=()=>S.profile.emergencyNum||'';
+function emergencyBlock(){
+  const n=emNum();
+  return n?`<p class="callnum">${np(n)}</p><a class="btn danger" href="tel:${esc(n)}">${ic('phone')} ${np(n)} मा फोन गर्नुहोस्</a><p class="muted small" style="text-align:center">फोन नखुलेमा माथिको नम्बर आफैं डायल गर्नुहोस्।</p>`
+    :`<p class="notice">आपतकालीन नम्बर राखिएको छैन। आफ्नो देशको आपतकालीन नम्बरमा तुरुन्तै फोन गर्नुहोस्। (परिवारले सेटिङमा नम्बर राख्नुहोस्।)</p>`;
+}
+function contactBlock(){
+  const p=S.profile;
+  return p.contactPhone?`<div class="row spread"><div><strong>${esc(p.contactName||'परिवार')}</strong><br><span style="font-size:1.4rem;font-weight:800">${np(p.contactPhone)}</span></div><a class="iconbtn" href="tel:${esc(p.contactPhone)}">${ic('phone')} फोन</a></div>`:'';
+}
+const T={
+ lowQ:'आमा, तपाईंको रगतमा चिनी कम देखिएको छ। के तपाईं होसमा हुनुहुन्छ र सुरक्षित रूपमा निल्न सक्नुहुन्छ?',
+ low:'आमा, तपाईंको रगतमा चिनी कम देखिएको छ। यदि तपाईं होसमा हुनुहुन्छ र सुरक्षित रूपमा निल्न सक्नुहुन्छ भने, आफ्नो मधुमेह उपचार योजनाअनुसार छिटो असर गर्ने चिनी लिनुहोस्। १५ मिनेटपछि फेरि जाँच गर्नुहोस्। अझै कम भएमा आफ्नो योजनाअनुसार दोहोर्‍याउनुहोस्।',
+ emerg:'आपतकालीन अवस्था। तुरुन्तै आपतकालीन नम्बरमा फोन गर्नुहोस्। मुखबाट खाना, पानी वा चिनी नदिनुहोस्।',
+ high:'आमा, तपाईंको सुगर बढी देखिएको छ। हात सफा गरेर फेरि जाँच गर्नुपर्ने हो कि हेर्नुहोस्। पानी पिउन निषेध गरिएको छैन भने पानी पिउनुहोस् र आफ्नो डाक्टरले दिएको योजनाअनुसार चल्नुहोस्। औषधि वा इन्सुलिनको मात्रा आफैं नबढाउनुहोस्।',
+ highQ:'के तपाईंलाई बान्ता, पेट दुख्ने, सास फेर्न गाह्रो, अन्योल वा धेरै निद्रा लागेको छ?',
+ urgent:'आमा, यी लक्षण गम्भीर हुन सक्छन्। तुरुन्तै डाक्टरकहाँ वा अस्पताल जानुहोस्। अरू जाँचका लागि नपर्खनुहोस्।'
+};
+function resultView(){
+  const r=S.readings.find(x=>x.id===viewArg.id);if(!r) return homeView();
+  const c=classify(r.v,r.timing);const stage=viewArg.stage;
+  const head=`<section class="card"><div class="reading"><span class="big">${showVal(r.v)}</span><span class="unit">${unitLbl(S.profile.unit)}</span></div><div class="row">${pill(c)}<span class="muted small">${TIMING[r.timing]}</span></div></section>`;
+  if(stage==='lowQ') return head+`<h2>${T.lowQ}</h2>
+    <button class="btn primary" data-act="lowAns" data-a="yes">${ic('check')} हो, म होसमा छु र निल्न सक्छु</button>
+    <button class="btn danger" data-act="lowAns" data-a="no">धेरै अन्योल, बेहोस, काम्ने वा निल्न नसक्ने</button>`;
+  if(stage==='emerg') return emergencyView();
+  if(stage==='low'){
+    return head+`<span class="level lv-urgent">छिटो ध्यान दिनुहोस्</span>
+    <div class="guide"><ol><li>आफ्नो उपचार योजनाअनुसार छिटो असर गर्ने चिनी लिनुहोस्।</li>
+    <li>साधारण उदाहरण (करिब १५ ग्राम): आधा कप (१२० मि.लि.) फलफूलको जुस वा चिनी भएको कोल्ड ड्रिंक, वा एक ठूलो चम्चा चिनी वा मह।</li>
+    <li>१५ मिनेटपछि फेरि जाँच गर्नुहोस्।</li><li>अझै कम भएमा योजनाअनुसार दोहोर्‍याउनुहोस्।</li><li>सकेसम्म एक्लै नबस्नुहोस्, परिवारलाई भन्नुहोस्।</li></ol></div>
+    <p class="muted small">उदाहरण साधारण हो — तपाईंको डाक्टरसँग पुष्टि गर्नुहोस्।</p>
+    ${planBox('low')}
+    <button class="btn primary" data-act="startFollow">${ic('clock')} १५ मिनेटको सम्झना सुरु गर्नुहोस्</button>
+    <button class="btn slim" data-act="speakGuide" data-g="low">${ic('speaker')} फेरि सुन्नुहोस्</button>
+    <section class="card emerg"><p><strong>बेहोस भएमा, काम्न थालेमा वा निल्न नसकेमा:</strong></p><button class="btn danger slim" data-act="toEmerg">आपतकालीन निर्देशन</button></section>`;
+  }
+  if(stage==='highQ') return head+`<h2>${T.highQ}</h2>
+    <button class="btn danger" data-act="highAns" data-a="yes">हो, यस्तो लक्षण छ</button>
+    <button class="btn primary" data-act="highAns" data-a="no">होइन, यस्तो छैन</button>`;
+  if(stage==='urgent') return head+`<span class="level lv-emerg">तुरुन्तै उपचार चाहिन्छ</span>
+    <div class="guide"><p>${T.urgent}</p></div>${emergencyBlock()}${contactBlock()}
+    <button class="btn slim" data-act="speakGuide" data-g="urgent">${ic('speaker')} फेरि सुन्नुहोस्</button>`;
+  if(stage==='high'){
+    const very=c==='attn-high';
+    return head+`<span class="level ${very?'lv-urgent':'lv-routine'}">${very?'छिटो ध्यान दिनुहोस्':'साधारण सल्लाह'}</span>
+    <div class="guide"><ul><li>हात सफा गरेर फेरि जाँच गर्नुपर्ने हो कि हेर्नुहोस्।</li><li>पानी पिउन निषेध गरिएको छैन भने पानी पिउनुहोस्।</li><li>डाक्टरले दिएको योजनाअनुसार चल्नुहोस्।</li><li><strong>औषधि वा इन्सुलिनको मात्रा आफैं नबढाउनुहोस्।</strong></li>
+    ${very||lastHighStreak()?`<li>सुगर धेरै बढी वा लगातार बढी छ। बिरामी हुँदाको (सिक-डे) योजनाअनुसार चल्नुहोस् र आजै डाक्टरलाई सम्पर्क गर्नुहोस्।</li>`:''}
+    ${S.profile.ketonePlan&&very?`<li>डाक्टरको योजनाअनुसार किटोन जाँच गर्नुहोस्।${S.profile.ketoneNote?' '+esc(S.profile.ketoneNote):''}</li>`:''}</ul></div>
+    ${planBox('high')}
+    <p class="notice">बान्ता, पेट दुख्ने, गहिरो वा गाह्रो सास, अन्योल वा धेरै निद्रा भएमा तुरुन्तै अस्पताल जानुहोस्।</p>
+    <button class="btn slim" data-act="speakGuide" data-g="high">${ic('speaker')} फेरि सुन्नुहोस्</button>`;
+  }
+  // in range / below
+  const sev=r.symptoms.some(s=>SEVERE.includes(s));const anySym=r.symptoms.filter(s=>s!=='none').length;
+  const [lo,hi]=range(r.timing);
+  return head+(sev?`<span class="level lv-emerg">लक्षणमा ध्यान दिनुहोस्</span><div class="guide"><p>सुगर ठीक देखिए पनि यी लक्षण गम्भीर हुन सक्छन्। तुरुन्तै डाक्टरलाई देखाउनुहोस्।</p></div>${emergencyBlock()}`:
+   `<span class="level lv-routine">साधारण</span><div class="guide"><p>${c==='in'?`राम्रो, ${esc(S.profile.name)}। तपाईंको सुगर ${S.profile.targetsConfirmed?'डाक्टरले दिएको':'साधारण'} दायरा (${showVal(lo)}–${showVal(hi)}) भित्र छ।`:`सुगर लक्ष्य दायराभन्दा अलि कम छ। चिनी कमका लक्षण देखिएमा फेरि जाँच गर्नुहोस्।`}</p>
+   ${anySym?'<p>अस्वस्थ महसुस भइरहेको छ भने डाक्टरलाई भन्नुहोस्।</p>':''}</div>`)+
+   (S.profile.targetsConfirmed?'':'<p class="muted small">डाक्टरको आफ्नै लक्ष्य दायरा अझै राखिएको छैन। परिवारले सेटिङमा राख्नुहोस्।</p>')+
+   `<button class="btn primary" data-act="home">${ic('home')} घर फर्कनुहोस्</button>`;
+}
+function resultSpeech(id,stage){
+  const r=S.readings.find(x=>x.id===id);const c=classify(r.v,r.timing);
+  if(stage==='lowQ') return T.lowQ;
+  if(stage==='low') return T.low;
+  if(stage==='emerg') return T.emerg;
+  if(stage==='highQ') return 'आमा, तपाईंको सुगर बढी देखिएको छ। '+T.highQ;
+  if(stage==='urgent') return T.urgent;
+  if(stage==='high') return T.high+(c==='attn-high'||lastHighStreak()?' सुगर धेरै बढी छ, आजै डाक्टरलाई सम्पर्क गर्नुहोस्।':'');
+  if(r.symptoms.some(s=>SEVERE.includes(s))) return 'सुगर ठीक देखिए पनि यी लक्षण गम्भीर हुन सक्छन्। तुरुन्तै डाक्टरलाई देखाउनुहोस्।';
+  return c==='in'?`राम्रो, ${S.profile.name}। तपाईंको सुगर ${showVal(r.v)} छ, दायराभित्र छ।`:`तपाईंको सुगर ${showVal(r.v)} छ, लक्ष्यभन्दा अलि कम छ।`;
+}
+function firstStage(r){
+  const c=classify(r.v,r.timing);
+  if(c==='low'||c==='attn-low') return r.symptoms.includes('confused')?'lowQ':'lowQ';
+  if(c==='high'||c==='attn-high'){
+    if(r.symptoms.some(s=>SEVERE.includes(s))) return 'urgent';
+    if(r.symptoms.length) return 'high';
+    return 'highQ';
+  }
+  return 'ok';
+}
+function showResult(id,stage){go('result',{id,stage});const t=resultSpeech(id,stage);
+  const ask={lowQ:'lowQ',highQ:'highQ'}[stage];awaiting=ask?{type:ask,id}:null;
+  autoSay(t,()=>{if(ask&&S.profile.handsFree&&SR&&!micBroken) startListen()});
+}
+
+function emergencyView(){
+  return `<section class="card emerg"><span class="level lv-emerg">आपतकालीन</span>
+  <h2>बेहोस, काम्ने, धेरै अन्योल वा निल्न नसक्ने अवस्था</h2>
+  <div class="guide"><ol>
+  <li><strong>तुरुन्तै आपतकालीन नम्बरमा फोन गर्नुहोस्।</strong></li>
+  <li>मुखबाट खाना, पानी वा चिनी <strong>नदिनुहोस्</strong>।</li>
+  <li>डाक्टरले लेखिदिएको ग्लुकागन घरमा छ र प्रयोग गर्न जान्नुहुन्छ भने मात्र दिनुहोस्।</li>
+  <li>बिरामीलाई कोल्टे पारेर सुताउनुहोस् र एक्लै नछाड्नुहोस्।</li></ol></div>
+  ${emergencyBlock()}${contactBlock()}
+  <p class="muted small">यो निर्देशन परिवार वा नजिकका मानिसका लागि हो। केवल यो एपमा भर नपर्नुहोस्।</p></section>`;
+}
+
+/* ---- today ---- */
+function todayView(){
+  const t=todays();const rems=todayReminders();
+  return `<h2>आजको विवरण</h2><p class="date">${fmtDate(new Date(),true)}</p>
+  <button class="btn soft slim" data-act="speakToday">${ic('speaker')} आजको विवरण सुन्नुहोस्</button>
+  <section class="card"><h3>आजका चिनी जाँच</h3>${t.length?`<div class="list">${t.map(readRow).join('')}</div>`:'<p class="muted">आज अहिलेसम्म जाँच लेखिएको छैन।</p>'}
+  <button class="btn primary slim" data-act="add">${ic('drop')} चिनी जाँच लेख्नुहोस्</button></section>
+  <section class="card"><h3>आजका सम्झना</h3>${rems.length?`<div class="list">${rems.map(remRow).join('')}</div>`:'<p class="muted">कुनै सम्झना छैन।</p>'}</section>`;
+}
+function readRow(r){const c=classify(r.v,r.timing);const d=new Date(r.ts);
+  return `<button class="li" style="width:100%;text-align:left" data-act="edit" data-id="${r.id}"><div class="t"><div class="v">${showVal(r.v)} <span class="muted small" style="font-weight:500">${unitLbl(S.profile.unit)}</span> ${r.demo?'<span class="demo-tag">नमुना</span>':''}</div><div class="muted small">${shortDate(d)}, ${fmtTime(d)} · ${TIMING[r.timing]}${r.via==='voice'?' · बोलेर':''}</div></div>${pill(c)}</button>`}
+function todaySpeech(){
+  const t=todays();
+  if(!t.length) return 'आज अहिलेसम्म चिनी जाँच लेखिएको छैन।';
+  const parts=t.slice().reverse().map(r=>`${sayTime(new Date(r.ts))}, ${showVal(r.v)}, ${stInfo(classify(r.v,r.timing)).w}`);
+  return `आज ${np(t.length)} पटक जाँच गर्नुभयो। `+parts.join('। ')+'।';
+}
+function daySpeech(off){
+  const d=new Date();d.setDate(d.getDate()-off);const k=dkey(d);
+  const t=sorted().filter(r=>dkey(new Date(r.ts))===k).reverse();
+  const lbl=off===1?'हिजो':shortDate(d);
+  if(!t.length) return `${lbl} कुनै चिनी जाँच लेखिएको थिएन।`;
+  return `${lbl} ${np(t.length)} पटक जाँच गर्नुभयो। `+t.map(r=>`${sayTime(new Date(r.ts))}, ${showVal(r.v)}, ${stInfo(classify(r.v,r.timing)).w}`).join('। ')+'।';
+}
+
+/* ---- meds ---- */
+function medsView(){
+  const meds=todayReminders().filter(r=>r.type==='med');
+  return `<h2>औषधि सम्झना</h2><p class="muted">डाक्टरले लेखिदिनुभएको निर्देशनअनुसार मात्र औषधि लिनुहोस्।</p>
+  <button class="btn soft slim" data-act="speakMeds">${ic('speaker')} औषधिको समय सुन्नुहोस्</button>
+  ${meds.length?meds.map(m=>{const st=remStatus(m);return `<section class="card"><div class="row spread"><h3>${esc(m.label)} ${m.demo?'<span class="demo-tag">नमुना</span>':''}</h3>${remChip(st)}</div><p class="muted">${timeStrNp(m.time)}${m.note?' · '+esc(m.note):''}</p>
+   ${st==='taken'?'':`<div class="grid2"><button class="btn primary slim" data-act="medAsk" data-id="${m.id}">${ic('check')} ${took(m)}</button><button class="btn slim" data-act="medSkip" data-id="${m.id}">${notTook(m)}</button></div>`}</section>`}).join('')
+  :`<section class="card"><p class="muted">औषधिको सम्झना राखिएको छैन।</p><button class="btn soft slim" data-act="go" data-v="family">${ic('people')} परिवारले सेटिङमा राख्नुहोस्</button></section>`}
+  <p class="muted small">यो पेज खुला रहँदा मात्र समयमा सम्झाउँछ। फोनको अलार्म पनि राख्नुहोस्।</p>`;
+}
+function medsSpeech(){
+  const meds=todayReminders().filter(r=>r.type==='med');
+  if(!meds.length) return 'औषधिको सम्झना राखिएको छैन।';
+  const due=meds.filter(m=>['due','missed'].includes(remStatus(m)));
+  if(due.length) return `आमा, ${due.map(m=>m.label).join(' र ')} खाने समय भएको छ। कृपया डाक्टरले लेखिदिनुभएको निर्देशनअनुसार औषधि लिनुहोस्।`;
+  const next=meds.find(m=>remStatus(m)==='later');
+  if(next) return `अहिले औषधि खाने समय भएको छैन। अर्को ${next.label} ${timeStrNp(next.time)} मा छ।`;
+  return 'आजका सबै औषधि लिइसक्नुभयो।';
+}
+
+/* ---- report ---- */
+let rTab=7;
+function reportView(){
+  const list=rTab===1?todays():readingsSince(rTab);
+  const n=list.length;const avg=n?list.reduce((a,r)=>a+r.v,0)/n:0;
+  const cnt=k=>list.filter(r=>k.includes(classify(r.v,r.timing))).length;
+  const missed=missedMeds(rTab===1?1:rTab);
+  return `<h2>मेरो रिपोर्ट</h2>
+  <div class="tabs" role="tablist">${[[1,'आज'],[7,'७ दिन'],[30,'३० दिन']].map(([d,l])=>`<button role="tab" aria-selected="${rTab===d}" data-act="rtab" data-d="${d}">${l}</button>`).join('')}</div>
+  <section class="card">${n?chart(list,rTab):'<p class="muted">यो अवधिमा कुनै जाँच छैन।</p>'}</section>
+  <section class="card"><div class="grid2">
+   <div><div class="muted small">जम्मा जाँच</div><div class="v" style="font-size:1.8rem;font-weight:800">${np(n)}</div></div>
+   <div><div class="muted small">औसत</div><div style="font-size:1.8rem;font-weight:800">${n?showVal(avg):'—'}</div></div>
+   <div><div class="muted small">कम</div><div style="font-size:1.5rem;font-weight:800;color:var(--low)">${np(cnt(['low','attn-low']))} पटक</div></div>
+   <div><div class="muted small">बढी</div><div style="font-size:1.5rem;font-weight:800;color:var(--high)">${np(cnt(['high','attn-high']))} पटक</div></div>
+  </div>${missed?`<p class="muted">छुटेका वा नखाएका औषधि: ${np(missed)} पटक</p>`:''}
+  <p class="muted small">एउटा मात्र जाँचले मधुमेहको पूरा अवस्था देखाउँदैन। डाक्टरसँग नियमित रूपमा हेर्नुहोस्।</p></section>
+  <button class="btn soft slim" data-act="speakReport">${ic('speaker')} रिपोर्ट सुन्नुहोस्</button>
+  <button class="btn primary slim" data-act="share">${ic('send')} रिपोर्ट पठाउनुहोस्</button>
+  <section class="card"><h3>सबै जाँच</h3><p class="muted small">गलत भए थिचेर सच्याउनुहोस्।</p>${n?`<div class="list">${list.map(readRow).join('')}</div>`:'<p class="muted">छैन।</p>'}</section>`;
+}
+function missedMeds(days){
+  let c=0;for(let i=0;i<days;i++){const d=new Date();d.setDate(d.getDate()-i);const k=dkey(d);const lg=S.log[k]||{};
+    S.reminders.filter(r=>r.type==='med'&&r.on).forEach(r=>{const l=lg[r.id];if(l&&l.st==='skipped'){c++;return}
+      if(!l){if(i===0){if(remStatus(r)==='missed')c++}else c++}})}
+  return c;
+}
+function reportSpeech(){
+  const list=rTab===1?todays():readingsSince(rTab);if(!list.length) return 'यो अवधिमा कुनै जाँच छैन।';
+  const avg=list.reduce((a,r)=>a+r.v,0)/list.length;
+  const lo=list.filter(r=>['low','attn-low'].includes(classify(r.v,r.timing))).length;
+  const hi=list.filter(r=>['high','attn-high'].includes(classify(r.v,r.timing))).length;
+  const per=rTab===1?'आज':rTab===7?'पछिल्लो सात दिनमा':'पछिल्लो तीस दिनमा';
+  return `${per} ${np(list.length)} पटक जाँच गर्नुभयो। औसत ${showVal(avg)} छ। ${lo?np(lo)+' पटक कम, ':''}${hi?np(hi)+' पटक बढी देखियो।':'बढी देखिएन।'}`;
+}
+function reportText(days){
+  const list=(days===1?todays():readingsSince(days)).slice().reverse();
+  const u=S.profile.unit;const ul=u==='mmol'?'mmol/L':'mg/dL';
+  const avg=list.length?list.reduce((a,r)=>a+r.v,0)/list.length:0;
+  let t=`मेरो मधुमेह साथी — चिनी जाँच रिपोर्ट\nनाम: ${S.profile.name}\nअवधि: ${days===1?'आज':'पछिल्लो '+np(days)+' दिन'} (${fmtDate(new Date())} सम्म)\nजम्मा जाँच: ${np(list.length)}${list.length?`\nऔसत: ${showVal(avg)} ${unitLbl(u)} (${ul})`:''}\nलक्ष्य दायरा: ${S.profile.targetsConfirmed?'डाक्टरले तोकेको':'साधारण (डाक्टरले पुष्टि गर्न बाँकी)'}\n\n`;
+  t+=list.map(r=>{const d=new Date(r.ts);return `${shortDate(d)} ${fmtTime(d)} — ${showVal(r.v)} ${ul}, ${TIMING[r.timing]} (${stInfo(classify(r.v,r.timing)).w})${r.symptoms.filter(s=>s!=='none').length?' · लक्षण: '+r.symptoms.filter(s=>s!=='none').map(s=>SYM[s]).join(', '):''}${r.note?' · '+r.note:''}${r.demo?' [नमुना]':''}`}).join('\n');
+  const m=missedMeds(days);if(m) t+=`\n\nछुटेका/नखाएका औषधि: ${np(m)} पटक`;
+  return t;
+}
+
+/* ---- chart ---- */
+function chart(list,days){
+  const W=340,H=190,L=34,R=8,Tp=10,B=26;const u=S.profile.unit;
+  const tg=S.profile.targets;
+  const maxMg=Math.max(260,...list.map(r=>r.v))+10;const minMg=40;
+  const y=v=>Tp+(H-Tp-B)*(1-(v-minMg)/(maxMg-minMg));
+  const now=Date.now();let x0,x1;
+  if(days===1){const s=new Date();s.setHours(0,0,0,0);x0=s.getTime();x1=x0+864e5}
+  else{const s=new Date();s.setHours(0,0,0,0);x0=s.getTime()-(days-1)*864e5;x1=s.getTime()+864e5}
+  const x=t=>L+(W-L-R)*(t-x0)/(x1-x0);
+  let g=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="चिनी जाँचको चित्र">`;
+  g+=`<rect x="${L}" y="${y(tg.postHi)}" width="${W-L-R}" height="${y(tg.fastLo)-y(tg.postHi)}" fill="var(--ok-soft)"/>`;
+  [tg.low,tg.postHi,Math.round((tg.veryHigh<maxMg?tg.veryHigh:250))].forEach((v,i)=>{if(v>maxMg)return;
+    g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${i===0?'var(--low)':'var(--line)'}" stroke-dasharray="${i===0?'4 3':'2 3'}"/><text x="${L-4}" y="${y(v)+4}" text-anchor="end">${showVal(v,u)}</text>`});
+  if(days===1){[[6,'बिहान ६'],[12,'दिउँसो १२'],[18,'बेलुका ६']].forEach(([h,l])=>{const t=x0+h*36e5;g+=`<text x="${x(t)}" y="${H-6}" text-anchor="middle">${l}</text>`})}
+  else{const step=days===7?1:7;for(let i=0;i<days;i+=step){const t=x0+i*864e5;const d=new Date(t);g+=`<text x="${x(t+432e5)}" y="${H-6}" text-anchor="middle">${days===7?np(toBS(d)&&S.profile.calendar==='bs'?toBS(d).d:d.getDate()):shortDate(d)}</text>`}}
+  const pts=list.slice().sort((a,b)=>a.ts-b.ts);
+  if(pts.length>1) g+=`<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${pts.map(r=>x(r.ts).toFixed(1)+','+y(r.v).toFixed(1)).join(' ')}"/>`;
+  pts.forEach((r,i)=>{const c=classify(r.v,r.timing);const col=c.includes('low')?'var(--low)':c==='in'?'var(--ok)':c==='attn-high'?'var(--attn)':'var(--high)';
+    g+=`<circle cx="${x(r.ts).toFixed(1)}" cy="${y(r.v).toFixed(1)}" r="${i===pts.length-1?6:4.5}" fill="${col}" stroke="var(--surface)" stroke-width="1.5"/>`});
+  g+='</svg>';
+  return `<div>${g}<p class="muted small">हरियो पट्टी: लक्ष्य दायरा · रातो धर्सो: कम चिनीको सीमा (${showVal(tg.low)}) · एकाइ ${unitLbl(u)}</p></div>`;
+}
+
+/* ---- help ---- */
+function helpView(){
+  return `<h2>मद्दत</h2>
+  <button class="btn danger" data-act="toEmergView">${ic('phone')} आपतकालीन निर्देशन</button>
+  ${S.profile.contactPhone?`<section class="card">${contactBlock()}</section>`:''}
+  <section class="card"><span class="level lv-urgent">चिनी कम भएमा (${showVal(S.profile.targets.low)} भन्दा कम)</span>
+   <div class="guide"><p>${T.low}</p></div><button class="btn slim" data-act="speakGuide" data-g="low">${ic('speaker')} सुन्नुहोस्</button></section>
+  <section class="card"><span class="level lv-routine">चिनी बढी भएमा</span><div class="guide"><p>${T.high}</p></div>
+   <p class="notice">बान्ता, पेट दुख्ने, गहिरो वा गाह्रो सास, अन्योल वा धेरै निद्रा भएमा तुरुन्तै अस्पताल जानुहोस्।</p>
+   <button class="btn slim" data-act="speakGuide" data-g="high">${ic('speaker')} सुन्नुहोस्</button></section>
+  <section class="card"><h3>बोलेर के भन्न सकिन्छ?</h3><div class="guide"><ul>
+  <li>"आज मेरो सुगर लेखिदेऊ"</li><li>"एक सय पचास"</li><li>"आजको सुगर देखाऊ"</li><li>"हिजोको रिपोर्ट सुनाऊ"</li><li>"मेरो औषधि खाने समय भयो?"</li><li>"मेरो छोराछोरीलाई रिपोर्ट पठाऊ"</li><li>"फेरि भन"</li><li>"मलाई मद्दत चाहियो"</li></ul></div></section>
+  <p class="muted small">यो एपले औषधि वा इन्सुलिनको मात्रा कहिल्यै बताउँदैन। सबै सीमा र निर्देशन डाक्टरले जाँच गर्नुपर्छ।</p>`;
+}
+
+/* ---- edit ---- */
+function editView(){
+  const r=S.readings.find(x=>x.id===viewArg);if(!r) return homeView();
+  const u=S.profile.unit;
+  return `<h2>जाँच सच्याउनुहोस्</h2>
+  <section class="card"><label class="f">अंक (${unitLbl(u)})<input type="number" inputmode="decimal" id="edVal" value="${inUnit(r.v,u)}" step="${u==='mmol'?'0.1':'1'}"></label>
+  <label class="f">कहिले<select id="edTime">${Object.keys(TIMING).map(k=>`<option value="${k}" ${r.timing===k?'selected':''}>${TIMING[k]}</option>`).join('')}</select></label>
+  <label class="f">टिप्पणी<input type="text" id="edNote" value="${esc(r.note)}"></label>
+  <p class="muted small">${fmtDate(new Date(r.ts))}, ${fmtTime(new Date(r.ts))} · ${r.via==='voice'?'बोलेर लेखिएको':'थिचेर लेखिएको'}</p></section>
+  <button class="btn primary" data-act="saveEdit" data-id="${r.id}">${ic('check')} परिवर्तन राख्नुहोस्</button>
+  <button class="btn" data-act="askDelete" data-id="${r.id}">${ic('x')} यो जाँच मेटाउनुहोस्</button>`;
+}
+
+/* ---- family / settings ---- */
+const COUNTRY={'':['छान्नुहोस्',''],np:['नेपाल (एम्बुलेन्स)','102'],in:['भारत','112'],no:['नर्वे','113'],uk:['बेलायत','999'],us:['अमेरिका / क्यानडा','911'],eu:['युरोप (धेरै देश)','112'],au:['अस्ट्रेलिया','000'],qa:['कतार','999'],ae:['युएई (एम्बुलेन्स)','998'],sa:['साउदी अरब (एम्बुलेन्स)','997'],my:['मलेसिया','999'],jp:['जापान','119'],kr:['दक्षिण कोरिया','119'],other:['अन्य (आफैं लेख्नुहोस्)','']};
+function familyView(){
+  const p=S.profile,t=p.targets,u=p.unit;
+  const tv=(k)=>inUnit(t[k],u);
+  const wk=readingsSince(7);const concern=wk.filter(r=>classify(r.v,r.timing)!=='in'&&classify(r.v,r.timing)!=='below');
+  const step=u==='mmol'?'0.1':'1';
+  return `<h2>परिवारका लागि</h2>
+  <section class="card"><h3>पछिल्लो ७ दिनको सारांश</h3>
+   <p>${np(wk.length)} पटक जाँच · ध्यान दिनुपर्ने ${np(concern.length)} पटक · छुटेका औषधि ${np(missedMeds(7))} पटक</p>
+   ${concern.slice(0,5).map(readRow).join('')}
+   <p class="muted small">यो सारांश यही फोनमा मात्र छ। अरू ठाउँबाट हेर्ने सुविधा छैन; रिपोर्ट पठाउन "मेरो रिपोर्ट" मा जानुहोस्।</p></section>
+
+  <p class="notice">सबै लक्ष्य, सीमा र निर्देशन मधुमेहका डाक्टरले जाँच गरेपछि मात्र प्रयोग गर्नुहोस्। थाहा नभएका कुरा खाली छोड्नुहोस्।</p>
+
+  <details class="card" open><summary>व्यक्तिगत विवरण</summary>
+   <label class="f">बोलाउने नाम<input type="text" id="p_name" value="${esc(p.name)}"></label>
+   <div class="f2"><label class="f">उमेर<span class="h">चाहेमा मात्र</span><input type="number" id="p_age" value="${esc(p.age)}"></label>
+   <label class="f">मधुमेहको प्रकार<select id="p_dtype">${[['unknown','थाहा छैन'],['t1','टाइप १'],['t2','टाइप २'],['gest','गर्भावस्थाको'],['other','अन्य']].map(([k,l])=>`<option value="${k}" ${p.dtype===k?'selected':''}>${l}</option>`).join('')}</select></label></div>
+   <label class="f">इन्सुलिन प्रयोग गर्नुहुन्छ?<select id="p_insulin">${[['unknown','थाहा छैन'],['yes','गर्नुहुन्छ'],['no','गर्नुहुन्न']].map(([k,l])=>`<option value="${k}" ${p.insulin===k?'selected':''}>${l}</option>`).join('')}</select></label>
+   <div class="f2"><label class="f">खाना खाने समय<input type="text" id="p_meals" value="${esc(p.meals)}" placeholder="जस्तै: ९ बजे, १ बजे, ७ बजे"></label>
+   <label class="f">सुत्ने समय<input type="text" id="p_sleep" value="${esc(p.sleep)}"></label></div>
+   <label class="f">मिति देखाउने तरिका<select id="p_cal"><option value="bs" ${p.calendar==='bs'?'selected':''}>बिक्रम संवत् (नेपाली पात्रो)</option><option value="ad" ${p.calendar==='ad'?'selected':''}>अंग्रेजी मिति</option></select><span class="h">बिक्रम संवत् अहिले २०८३ साल र २०८४ को सुरुका महिनासम्म मात्र मिलाइएको छ; त्यसपछि अंग्रेजी मिति देखिन्छ।</span></label>
+  </details>
+
+  <details class="card" open><summary>लक्ष्य दायरा र सीमा</summary>
+   <label class="f">एकाइ (मिटरले देखाउने)<select id="p_unit"><option value="mg" ${u==='mg'?'selected':''}>मि.ग्रा./डे.लि. (mg/dL)</option><option value="mmol" ${u==='mmol'?'selected':''}>मि.मो./लि. (mmol/L)</option></select></label>
+   <div class="f2"><label class="f">खाली पेट — देखि<input type="number" step="${step}" id="t_fastLo" value="${tv('fastLo')}"></label><label class="f">खाली पेट — सम्म<input type="number" step="${step}" id="t_fastHi" value="${tv('fastHi')}"></label>
+   <label class="f">खाएको १–२ घण्टापछि — सम्म<input type="number" step="${step}" id="t_postHi" value="${tv('postHi')}"></label><label class="f">सुत्नुअघि — सम्म<input type="number" step="${step}" id="t_bedHi" value="${tv('bedHi')}"></label>
+   <label class="f">सुत्नुअघि — देखि<input type="number" step="${step}" id="t_bedLo" value="${tv('bedLo')}"></label><label class="f">कम चिनीको सीमा<input type="number" step="${step}" id="t_low" value="${tv('low')}"></label>
+   <label class="f">धेरै कम (तुरुन्त ध्यान)<input type="number" step="${step}" id="t_severeLow" value="${tv('severeLow')}"></label><label class="f">धेरै बढी (तुरुन्त ध्यान)<input type="number" step="${step}" id="t_veryHigh" value="${tv('veryHigh')}"></label></div>
+   <p class="muted small">सुरुका अंक धेरैजसो वयस्कका लागि प्रयोग हुने साधारण अंक हुन् (कम चिनी ७० मि.ग्रा./डे.लि. / ३.९ मि.मो./लि.)। डाक्टरले फरक लक्ष्य दिनुभएको छ भने त्यही राख्नुहोस्।</p>
+   <label class="check"><input type="checkbox" id="p_tconf" ${p.targetsConfirmed?'checked':''}> यी लक्ष्य डाक्टरले तोकिदिनुभएको हो</label>
+   <label class="f">कुन डाक्टर, कहिले<input type="text" id="p_tby" value="${esc(p.targetsBy)}"></label>
+  </details>
+
+  <details class="card"><summary>डाक्टरको योजना</summary>
+   <label class="f">चिनी कम हुँदा के गर्ने<span class="h">डाक्टरले लेखिदिएको जस्तै लेख्नुहोस्</span><textarea id="p_lowPlan">${esc(p.lowPlan)}</textarea></label>
+   <label class="f">चिनी बढी / बिरामी हुँदा (सिक-डे) के गर्ने<textarea id="p_highPlan">${esc(p.highPlan)}</textarea></label>
+   <label class="check"><input type="checkbox" id="p_ket" ${p.ketonePlan?'checked':''}> डाक्टरले किटोन जाँच गर्न भन्नुभएको छ</label>
+   <label class="f">किटोन कहिले जाँच्ने<input type="text" id="p_ketNote" value="${esc(p.ketoneNote)}"></label>
+   <p class="muted small">यो एपले कहिल्यै औषधि वा इन्सुलिनको मात्रा हिसाब गर्दैन वा बढाउन भन्दैन।</p>
+  </details>
+
+  <details class="card"><summary>औषधि र अरू सम्झना</summary>
+   <div class="list">${S.reminders.map(r=>`<div class="li"><div class="t"><strong>${esc(r.label)}</strong> ${r.demo?'<span class="demo-tag">नमुना</span>':''}<div class="muted small">${r.insulin?REMT.insulin:REMT[r.type]} · ${timeStrNp(r.time)}${r.note?' · '+esc(r.note):''}</div></div><button class="iconbtn" data-act="delRem" data-id="${r.id}" aria-label="हटाउनुहोस्">${ic('x')}</button></div>`).join('')||'<p class="muted">कुनै सम्झना छैन।</p>'}</div>
+   <div class="f2"><label class="f">किसिम<select id="r_type">${Object.keys(REMT).map(k=>`<option value="${k}">${REMT[k]}</option>`).join('')}</select></label><label class="f">समय<input type="time" id="r_time" value="08:00"></label></div>
+   <label class="f">नाम<span class="h">जस्तै: बिहानको औषधि (औषधिको नाम)</span><input type="text" id="r_label"></label>
+   <label class="f">डाक्टरको निर्देशन<span class="h">पर्चामा लेखिएको जस्तै, जस्तै: खाना खाएपछि</span><input type="text" id="r_note"></label>
+   <button class="btn soft slim" data-act="addRem">सम्झना थप्नुहोस्</button>
+  </details>
+
+  <details class="card" open><summary>आपतकालीन</summary>
+   <label class="f">बस्ने देश<select id="p_country">${Object.keys(COUNTRY).map(k=>`<option value="${k}" ${p.country===k?'selected':''}>${COUNTRY[k][0]}${COUNTRY[k][1]?' — '+COUNTRY[k][1]:''}</option>`).join('')}</select></label>
+   <label class="f">आपतकालीन नम्बर<span class="h">देश छान्दा आफैं भरिन्छ। स्थानीय नम्बर ठीक छ कि जाँच गर्नुहोस्।</span><input type="tel" id="p_em" value="${esc(p.emergencyNum)}"></label>
+   <div class="f2"><label class="f">परिवारको नाम<input type="text" id="p_cn" value="${esc(p.contactName)}"></label><label class="f">फोन नम्बर<input type="tel" id="p_cp" value="${esc(p.contactPhone)}"></label></div>
+  </details>
+
+  <details class="card"><summary>रिपोर्ट पाउने व्यक्ति</summary>
+   <div class="f2"><label class="f">नाम<input type="text" id="p_rn" value="${esc(p.reportName)}"></label><label class="f">फोन नम्बर<input type="tel" id="p_rp" value="${esc(p.reportPhone)}"></label></div>
+   <label class="check"><input type="checkbox" id="p_rc" ${p.reportConsent?'checked':''}> ${esc(p.name)}ले यो व्यक्तिलाई रिपोर्ट पठाउन सहमति दिनुभएको छ</label>
+   <p class="muted small">रिपोर्ट आफैं कहिल्यै पठाइँदैन। हरेक पटक सोधेर मात्र पठाउने पाठ तयार हुन्छ।</p>
+  </details>
+
+  <details class="card"><summary>आवाज</summary>
+   <label class="check"><input type="checkbox" id="p_auto" ${p.autoSpeak?'checked':''}> निर्देशन आफैं बोलेर सुनाउने</label>
+   <label class="check"><input type="checkbox" id="p_hf" ${p.handsFree?'checked':''}> प्रश्न सोधेपछि आफैं माइक खोल्ने (कुराकानी मोड)</label>
+   <p class="small">${voiceStatus()}</p>
+   <button class="btn slim" data-act="testVoice">${ic('speaker')} आवाज जाँच गर्नुहोस्</button>
+  </details>
+
+  <details class="card"><summary>ब्याकअप र नमुना</summary>
+   <p class="muted small">सबै रेकर्ड यही फोनको ब्राउजरमा मात्र राखिन्छ। ब्राउजरको डेटा मेटाएमा हराउँछ, त्यसैले बेलाबेलामा ब्याकअप राख्नुहोस्।</p>
+   <button class="btn slim" data-act="backup">ब्याकअप कपी गर्नुहोस्</button>
+   <label class="f">ब्याकअप फर्काउनुहोस्<textarea id="bk_in" placeholder="यहाँ ब्याकअप टाँस्नुहोस्"></textarea></label>
+   <button class="btn slim" data-act="restore">ब्याकअप फर्काउनुहोस्</button>
+   ${S.readings.some(r=>r.demo)||S.reminders.some(r=>r.demo)?'<button class="btn slim" data-act="clearDemo">नमुना रेकर्ड मेटाउनुहोस्</button>':'<button class="btn slim" data-act="demo">नमुना रेकर्ड थप्नुहोस्</button>'}
+  </details>
+
+  <button class="btn primary" data-act="saveProfile">${ic('check')} सेटिङ राख्नुहोस्</button>`;
+}
+function voiceStatus(){
+  const out=voiceKind==='ne'?'बोल्ने: नेपाली आवाज उपलब्ध छ।':voiceKind==='hi'?'बोल्ने: नेपाली आवाज भेटिएन, हिन्दी आवाजले नेपाली पढ्छ। फोनको सेटिङमा Google को नेपाली आवाज थप्न सकिन्छ।':'बोल्ने: यो ब्राउजरमा नेपाली पढ्ने आवाज भेटिएन; पाठ मात्र देखिन्छ।';
+  const inp=!SR?'बोलेर लेख्ने: यो ब्राउजरमा छैन। Android फोनको Chrome मा राम्रो चल्छ।':micBroken==='blocked'?'बोलेर लेख्ने: माइक खोल्न अनुमति भएन। यो पेजलाई आफ्नै वेबसाइटमा राखेर Chrome मा खोल्नुहोस्।':micBroken==='lang'?'बोलेर लेख्ने: यो ब्राउजरले नेपाली बुझ्दैन।':'बोलेर लेख्ने: ब्राउजरमा सुविधा छ (नेपाली बुझाइ फोनअनुसार फरक हुन्छ)।';
+  return out+'<br>'+inp;
+}
+
+/* ---------- voice overlay ---------- */
+let V=null;
+function openVoice(){ if(!V) V={heard:'',reply:'',done:false}; renderVoice(); }
+function closeVoice(){stopListen();V=null;ovEl.innerHTML=''}
+function renderVoice(){
+  if(!V){return}
+  const broken=micBroken||(!SR?'none':'');
+  const status=listening?'सुनिरहेको छु… बोल्नुहोस्':broken?(broken==='none'?'यो फोनमा बोलेर लेख्ने सुविधा छैन।':broken==='lang'?'यो फोनले नेपाली बोली बुझ्न सकेन।':'माइक खोल्न मिलेन।'):'माइक बन्द छ';
+  const ctx=awaiting?awaitHint():'';
+  ovEl.innerHTML=`<div class="ov" role="dialog" aria-modal="true" aria-label="बोलेर भन्नुहोस्"><div class="sheet">
+   <div class="listen"><div class="ring ${listening?'live':'idle'}">${ic('mic')}</div>
+   <p style="font-weight:800;font-size:1.3rem">${status}</p>
+   ${ctx?`<p class="muted">${ctx}</p>`:''}
+   ${V.heard?`<p class="heard">“${esc(V.heard)}”</p>`:''}
+   ${V.reply?`<p class="say">${esc(V.reply)}</p>`:''}</div>
+   ${listening?`<button class="btn danger" data-act="stopMic">${ic('stop')} रोक्नुहोस्</button>`:(!broken?`<button class="btn primary" data-act="mic">${ic('mic')} फेरि बोल्नुहोस्</button>`:'')}
+   ${broken?`<p class="muted small" style="text-align:center">बटन थिचेर प्रयोग गर्नुहोस्, वा तल लेख्नुहोस्।</p>`:''}
+   <form class="row" data-form="typed" style="flex-wrap:nowrap"><input type="text" id="typedIn" placeholder="वा यहाँ लेख्नुहोस्" style="flex:1;min-width:0"><button class="iconbtn on" type="submit" aria-label="पठाउनुहोस्">${ic('send')}</button></form>
+   <div class="examples">${voiceExamples().map(e=>`<button data-act="example" data-t="${esc(e)}">${esc(e)}</button>`).join('')}</div>
+   ${broken&&F&&F.step==='num'?`<button class="btn soft slim" data-act="closeVoice">${ic('keypad')} नम्बर थिचेर लेख्नुहोस्</button>`:''}
+   <button class="btn slim" data-act="closeVoice">बन्द गर्नुहोस्</button></div></div>`;
+}
+function awaitHint(){return {num:'चिनी कति देखियो, भन्नुहोस्।',timing:'खाना खानुअघि कि खाएपछि?',confirm:'हो वा होइन भन्नुहोस्।',lowQ:'हो वा होइन भन्नुहोस्।',highQ:'हो वा होइन भन्नुहोस्।',med:'भयो, पछि सम्झाउनु, वा आज खाएको छैन भन्नुहोस्।',medConfirm:'हो वा होइन भन्नुहोस्।',share:'हो वा होइन भन्नुहोस्।'}[awaiting.type]||''}
+function voiceExamples(){
+  if(awaiting){return {num:['एक सय पचास','डेढ सय'],timing:['खाना खानुअघि','खाना खाएपछि','सुत्नुअघि'],confirm:['हो','होइन'],lowQ:['हो','होइन'],highQ:['हो','होइन'],med:['भयो','पछि सम्झाउनु','आज खाएको छैन'],medConfirm:['हो','होइन'],share:['हो','होइन']}[awaiting.type]||[]}
+  return ['आज मेरो सुगर लेखिदेऊ','आजको सुगर देखाऊ','हिजोको रिपोर्ट सुनाऊ','मेरो औषधि खाने समय भयो?','मलाई मद्दत चाहियो'];
+}
+function reply(t,keepOpen,ask){
+  if(V){V.reply=t;renderVoice()}
+  say(t,()=>{ if(ask&&S.profile.handsFree&&SR&&!micBroken&&V) startListen(); });
+}
+
+/* ---------- understanding ---------- */
+const has=(t,...ws)=>ws.some(w=>t.includes(norm(w)));
+const word=(t,...ws)=>{const tk=' '+t+' ';return ws.some(w=>tk.includes(' '+norm(w)+' '))};
+function yesNo(t){
+  if(has(t,'होइन','हैन','नाइँ','नाइ','गलत','छैन','नगर','no')) return 'no';
+  if(word(t,'हो','हुन्छ','ठीक','हजुर','हस्','हस','हवस','सही','सहि','yes','ok','ओके','भयो','छ')||has(t,'ठिक छ','हो हो')) return 'yes';
+  return null;
+}
+function parseTiming(t){
+  if(has(t,'सुत्नु','सुत्ने','सुत्न')) return 'bed';
+  if(has(t,'खाली पेट','खानुअघि','खाना अघि','खानु अघि','अघि','बिहान उठेर','नखाई','नखाइ')) return 'fast';
+  if(has(t,'खाएपछि','खाए पछि','खाइसकेपछि','पछि','खाएको')) return 'post';
+  if(has(t,'अन्य','अरु','अरू','बेलामा')) return 'other';
+  return null;
+}
+function handleUtterance(raw){
+  const t=norm(raw);
+  if(V){V.heard=raw}
+  // emergencies first
+  if(has(t,'बेहोस','छारे','काँप्दै','काम्दै','मुर्छा','सास फेर्न सक्नु','निल्न सक्नु')){closeVoice();go('emerg');say(T.emerg);return}
+  if(has(t,'फेरि भन','फेरि सुनाउ','दोहोर्','बुझिन')&&!awaiting){reply(lastSpoken||'माफ गर्नुहोस्, अहिले सुनाउने कुरा छैन।');return}
+  if(awaiting){ if(handleAwait(t,raw)) return; }
+  const n=parseNumber(t);
+  if(n!=null&&!has(t,'हिजो','दिन')){ startAddVoice(n); return; }
+  if(has(t,'मद्दत','सहयोग','गाह्रो','ठीक छैन','ठिक छैन','अप्ठ्यारो')){closeVoice();go('help');say('आमा, म यहाँ छु। एकदमै अस्वस्थ हुनुहुन्छ भने परिवारलाई बोलाउनुहोस् वा आपतकालीन नम्बरमा फोन गर्नुहोस्। रातो बटनमा आपतकालीन निर्देशन छ।');return}
+  if(has(t,'पठा')){closeVoice();openShare();return}
+  if(has(t,'हिजो')){closeVoice();go('today');reply(daySpeech(1));return}
+  if(has(t,'औषधि','औषधी','दबाई','दवाई','चक्की')){closeVoice();go('meds');say(medsSpeech());return}
+  if(has(t,'रिपोर्ट','हप्ता')){closeVoice();go('report');say(reportSpeech());return}
+  if(has(t,'लेख','राख','थप','नोट')&&has(t,'सुगर','चिनी','रेकर्ड','जाँच','जांच','सुगर')){startAddVoice(null);return}
+  if(has(t,'लेख','राख')){startAddVoice(null);return}
+  if(has(t,'आज','देखाउ','हेर','सुनाउ','सुगर','चिनी')){closeVoice();go('today');say(todaySpeech());return}
+  if(has(t,'घर','सुरु')){closeVoice();go('home');return}
+  reply('माफ गर्नुहोस् आमा, मैले राम्ररी बुझिनँ। फेरि भन्नुहोस्, वा तलको बटन थिच्नुहोस्।',true,false);
+}
+function startAddVoice(n){
+  newFlow(null,'voice');
+  if(n==null){awaiting={type:'num'};go('add');reply('हुन्छ आमा। आज तपाईंको रगतमा चिनी कति देखियो?',true,true);return}
+  F.val=String(n);F.step='time';awaiting={type:'timing'};go('add');
+  reply(`${np(n)} ${unitSay(F.unit)}। खाना खानुअघि जाँच्नुभएको हो कि खाएपछि?`,true,true);
+}
+function handleAwait(t,raw){
+  const a=awaiting;
+  if(a.type==='num'){const n=parseNumber(t);if(n==null){reply('अंक बुझिनँ। जस्तै "एक सय पचास" भन्नुहोस्।',true,true);return true}
+    F.val=String(n);F.via='voice';
+    const tm=parseTiming(t);
+    if(tm){F.timing=tm;F.step='confirm';awaiting={type:'confirm'};go('add');reply(confirmSpeech(),true,true);return true}
+    F.step='time';awaiting={type:'timing'};go('add');reply(`${np(n)} ${unitSay(F.unit)}। खाना खानुअघि जाँच्नुभएको हो कि खाएपछि?`,true,true);return true}
+  if(a.type==='timing'){const tm=parseTiming(t);if(!tm){reply('खाना खानुअघि, खाना खाएपछि, सुत्नुअघि, वा अन्य समय — कुन हो?',true,true);return true}
+    F.timing=tm;F.step='confirm';awaiting={type:'confirm'};go('add');reply(confirmSpeech(),true,true);return true}
+  if(a.type==='confirm'){const yn=yesNo(t);if(!yn){reply('हो वा होइन भन्नुहोस्।',true,true);return true}
+    if(yn==='yes'){closeVoice();doSave();return true}
+    newFlow(null,'voice');awaiting={type:'num'};go('add');reply('ठीक छ, फेरि भन्नुहोस्। चिनी कति देखियो?',true,true);return true}
+  if(a.type==='lowQ'){const yn=yesNo(t);if(!yn){reply('हो वा होइन भन्नुहोस्।',true,true);return true}awaiting=null;closeVoice();showResult(a.id,yn==='yes'?'low':'emerg');return true}
+  if(a.type==='highQ'){const yn=yesNo(t);if(!yn){reply('हो वा होइन भन्नुहोस्।',true,true);return true}awaiting=null;closeVoice();showResult(a.id,yn==='yes'?'urgent':'high');return true}
+  if(a.type==='med'){
+    if(has(t,'पछि')){awaiting=null;snooze(a.id);closeVoice();return true}
+    if(has(t,'खाएको छैन','लिएको छैन','खाइन','खाएन','छैन')){awaiting=null;closeVoice();markRem(a.id,'skipped');return true}
+    if(has(t,'भयो','खाएँ','खाइसकें','खाइसकेँ','खाइसके','लिएँ','लिइसकें','लिइसके')){const rm=S.reminders.find(x=>x.id===a.id);awaiting={type:'medConfirm',id:a.id};reply(rm?tookQ(rm):'औषधि खाइसक्नुभयो?',true,true);return true}
+    reply('भयो, पछि सम्झाउनु, वा आज खाएको छैन भन्नुहोस्।',true,true);return true}
+  if(a.type==='medConfirm'){const yn=yesNo(t);awaiting=null;closeVoice();if(yn==='yes') markRem(a.id,'taken'); else toast('औषधि खाएको भनी राखिएन।');return true}
+  if(a.type==='share'){const yn=yesNo(t);awaiting=null;if(yn==='yes'){copyReport()}else{closeVoice();ovEl.innerHTML='';toast('रिपोर्ट पठाइएन।')}return true}
+  return false;
+}
+
+/* ---------- actions ---------- */
+function doSave(){
+  const v=parseFloat(F.val);if(!v){toast('अंक लेख्नुहोस्।');return}
+  const r={id:uid(),v:Math.round(toMg(v,F.unit)*10)/10,unitEntered:F.unit,valEntered:v,ts:Date.now(),timing:F.timing,symptoms:F.symptoms,note:F.note,via:F.via};
+  S.readings.push(r);
+  // a recheck after a low ends the follow-up timer
+  if(S.followUp) S.followUp=null;
+  // mark a due "check" reminder as done
+  todayReminders().filter(x=>x.type==='check'&&remStatus(x)==='due').forEach(x=>{const k=dkey(new Date());S.log[k]=S.log[k]||{};S.log[k][x.id]={st:'done',t:Date.now()}});
+  save();F=null;awaiting=null;
+  const st=firstStage(r);
+  toast('जाँच राखियो।');
+  showResult(r.id,st);
+}
+function markRem(id,st){
+  const k=dkey(new Date());S.log[k]=S.log[k]||{};S.log[k][id]={st,t:Date.now()};delete S.snooze[id];save();ovEl.innerHTML='';render();
+  if(st==='taken'||st==='done') say('ठीक छ, राखियो।');
+  else say('ठीक छ। छुटेको औषधिबारे डाक्टरले दिएको निर्देशनअनुसार गर्नुहोस्। दोब्बर मात्रा आफैं नलिनुहोस्।');
+}
+function snooze(id){S.snooze[id]=Date.now()+15*60000;save();ovEl.innerHTML='';shownRem.delete(id);say('हुन्छ, पन्ध्र मिनेटपछि फेरि सम्झाउँछु।');}
+function confirmModal(title,body,yes,no,onYes){
+  ovEl.innerHTML=`<div class="ov" role="dialog" aria-modal="true"><div class="sheet"><h2>${title}</h2>${body?`<p>${body}</p>`:''}
+  <button class="btn primary" data-act="mYes">${yes}</button><button class="btn" data-act="mNo">${no}</button></div></div>`;
+  confirmModal.cb=onYes;
+}
+function openShare(){
+  const p=S.profile;
+  if(!p.reportName&&!p.reportPhone){say('पहिले परिवारको सेटिङमा रिपोर्ट पाउने व्यक्ति राख्नुहोस्।');confirmModal('रिपोर्ट पाउने व्यक्ति राखिएको छैन','परिवारको सेटिङमा रिपोर्ट पाउने व्यक्ति र सहमति राखेपछि मात्र पठाउन मिल्छ।','सेटिङमा जानुहोस्','पछि',()=>go('family'));return}
+  if(!p.reportConsent){confirmModal('सहमति राखिएको छैन','रिपोर्ट पठाउन सेटिङमा सहमति चिनो लगाउनुहोस्।','सेटिङमा जानुहोस्','पछि',()=>go('family'));return}
+  const days=view==='report'?rTab:7;const txt=reportText(days);
+  awaiting={type:'share'};
+  ovEl.innerHTML=`<div class="ov" role="dialog" aria-modal="true"><div class="sheet">
+   <h2>${esc(p.reportName||'परिवार')}लाई रिपोर्ट पठाउने?</h2>
+   ${p.reportPhone?`<p class="muted">${np(p.reportPhone)}</p>`:''}
+   <textarea id="shareTxt" readonly style="min-height:180px;font-size:.95rem">${esc(txt)}</textarea>
+   <button class="btn primary" data-act="copyReport">${ic('check')} हो, पाठ कपी गर्नुहोस्</button>
+   ${p.reportPhone?`<a class="btn slim" href="sms:${esc(p.reportPhone)}?body=${encodeURIComponent(txt)}">${ic('send')} SMS खोल्नुहोस्</a>`:''}
+   <p class="muted small">कपी गरेपछि Viber, WhatsApp वा SMS मा टाँसेर आफैं पठाउनुहोस्। एपले आफैं केही पठाउँदैन।</p>
+   <button class="btn slim" data-act="mNo">होइन, नपठाउनुहोस्</button></div></div>`;
+  say(`${p.reportName||'परिवार'}लाई रिपोर्ट पठाउने हो?`,()=>{if(S.profile.handsFree&&SR&&!micBroken){openVoice();startListen()}});
+}
+function copyReport(){
+  const ta=$('#shareTxt');const txt=ta?ta.value:reportText(7);
+  const done=()=>{toast('पाठ कपी भयो। अब म्यासेजमा टाँस्नुहोस्।');say('पाठ कपी भयो। अब म्यासेजमा टाँसेर पठाउनुहोस्।')};
+  try{navigator.clipboard.writeText(txt).then(done,()=>{if(ta){ta.focus();ta.select()}toast('पाठ छानियो — लामो थिचेर कपी गर्नुहोस्।')})}catch(e){if(ta){ta.focus();ta.select()}}
+  awaiting=null;
+}
+
+function readProfile(){
+  const p=S.profile;const g=id=>$('#'+id);const u=g('p_unit').value;
+  p.name=g('p_name').value.trim()||'आमा';p.age=g('p_age').value;p.dtype=g('p_dtype').value;p.insulin=g('p_insulin').value;
+  p.meals=g('p_meals').value;p.sleep=g('p_sleep').value;p.calendar=g('p_cal').value;
+  const oldU=p.unit;
+  ['fastLo','fastHi','postHi','bedHi','bedLo','low','severeLow','veryHigh'].forEach(k=>{const v=parseFloat(g('t_'+k).value);if(!isNaN(v)) p.targets[k]=Math.round(toMg(v,oldU)*10)/10});
+  p.unit=u;p.targetsConfirmed=g('p_tconf').checked;p.targetsBy=g('p_tby').value;
+  p.lowPlan=g('p_lowPlan').value;p.highPlan=g('p_highPlan').value;p.ketonePlan=g('p_ket').checked;p.ketoneNote=g('p_ketNote').value;
+  p.country=g('p_country').value;p.emergencyNum=g('p_em').value.trim();p.contactName=g('p_cn').value;p.contactPhone=g('p_cp').value.trim();
+  p.reportName=g('p_rn').value;p.reportPhone=g('p_rp').value.trim();p.reportConsent=g('p_rc').checked;
+  p.autoSpeak=g('p_auto').checked;p.handsFree=g('p_hf').checked;
+}
+
+function demo(){
+  const base=new Date();base.setHours(0,0,0,0);const rs=[];
+  const pat=[[7,'fast',128],[14,'post',176],[21,'bed',142]];
+  for(let d=9;d>=0;d--){pat.forEach(([h,t,v],i)=>{const ts=base.getTime()-d*864e5+h*36e5+((d*7+i*13)%40)*6e4;if(ts>Date.now())return;
+    const jitter=((d*31+i*17)%45)-18;rs.push({id:uid(),v:v+jitter+(d===3&&i===1?40:0)-(d===5&&i===0?62:0),unitEntered:'mg',ts,timing:t,symptoms:d===5&&i===0?['shake']:[],note:'',via:i===1?'voice':'manual',demo:true})})}
+  S.readings=S.readings.concat(rs);
+  if(!S.reminders.some(r=>r.demo)) S.reminders=S.reminders.concat([{id:uid(),type:'check',label:'बिहान खाली पेट चिनी जाँच',time:'07:00',note:'',on:true,demo:true},{id:uid(),type:'meal',label:'दिउँसोको खाना',time:'13:00',note:'',on:true,demo:true}]);
+  save();render();toast('नमुना रेकर्ड थपियो।');
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b) return;
+  const a=b.dataset.act;
+  if(b.tagName==='A') return;
+  switch(a){
+   case 'home':F=null;awaiting=null;ovEl.innerHTML='';V=null;go('home');break;
+   case 'go':go(b.dataset.v);break;
+   case 'toggleSpeak':S.profile.autoSpeak=!S.profile.autoSpeak;save();renderTop();toast(S.profile.autoSpeak?'आवाज खुला':'आवाज बन्द');if(!S.profile.autoSpeak)try{speechSynthesis.cancel()}catch(e){}break;
+   case 'repeat':if(lastSpoken) say(lastSpoken); else toast('सुनाउने कुरा छैन।');break;
+   case 'speakLast':{const r=sorted()[0];if(r){const c=classify(r.v,r.timing);say(`पछिल्लो जाँच ${showVal(r.v)} ${unitSay(S.profile.unit)}, ${TIMING_SAY[r.timing]}। ${stInfo(c).w}।`)}break}
+   case 'add':newFlow(null,'manual');awaiting={type:'num'};go('add');autoSay('रगतमा चिनी कति देखियो? नम्बर थिच्नुहोस् वा बोलेर भन्नुहोस्।');break;
+   case 'mic':if(!awaiting&&view==='add'&&F){awaiting={type:F.step==='num'?'num':F.step==='time'?'timing':'confirm'}}if(V)V.reply='';startListen();break;
+   case 'stopMic':stopListen();break;
+   case 'closeVoice':closeVoice();break;
+   case 'example':handleUtterance(b.dataset.t);break;
+   case 'key':{const k=b.dataset.k;if(k==='del')F.val=F.val.slice(0,-1);else if(k==='clr')F.val='';else if(k==='.'){if(!F.val.includes('.'))F.val=(F.val||'0')+'.'}else if(F.val.replace('.','').length<4)F.val+=k;render();break}
+   case 'swapUnit':F.unit=F.unit==='mg'?'mmol':'mg';F.val='';render();break;
+   case 'swapUnitConfirm':F.unit='mmol';render();say(confirmSpeech());break;
+   case 'numNext':if(!F.val)break;F.step='time';awaiting={type:'timing'};render();autoSay('कहिले जाँच्नुभयो? खाना खानुअघि कि खाएपछि?');break;
+   case 'timing':F.timing=b.dataset.t;F.step='sym';awaiting=null;render();break;
+   case 'sym':{const s=b.dataset.s;if(s==='none'){F.symptoms=F.symptoms.includes('none')?[]:['none']}else{F.symptoms=F.symptoms.filter(x=>x!=='none');F.symptoms=F.symptoms.includes(s)?F.symptoms.filter(x=>x!==s):F.symptoms.concat(s)}const n=$('#noteIn');if(n)F.note=n.value;render();break}
+   case 'symNext':{const n=$('#noteIn');if(n)F.note=n.value.trim();F.step='confirm';awaiting={type:'confirm'};render();autoSay(confirmSpeech());break}
+   case 'saveReading':doSave();break;
+   case 'restartAdd':newFlow(null,F?F.via:'manual');awaiting={type:'num'};render();break;
+   case 'lowAns':awaiting=null;showResult(viewArg.id,b.dataset.a==='yes'?'low':'emerg');break;
+   case 'highAns':awaiting=null;showResult(viewArg.id,b.dataset.a==='yes'?'urgent':'high');break;
+   case 'toEmerg':showResult(viewArg.id,'emerg');break;
+   case 'toEmergView':go('emerg');say(T.emerg);break;
+   case 'startFollow':S.followUp={at:Date.now()+15*60000};save();go('home');say('ठीक छ, पन्ध्र मिनेटपछि फेरि जाँच गर्न सम्झाउँछु। यो पेज खुला राख्नुहोस्।');break;
+   case 'clearFollow':S.followUp=null;save();render();break;
+   case 'speakGuide':say(T[b.dataset.g]);break;
+   case 'speakToday':say(todaySpeech());break;
+   case 'speakMeds':say(medsSpeech());break;
+   case 'speakReport':say(reportSpeech());break;
+   case 'rtab':rTab=+b.dataset.d;render();break;
+   case 'share':openShare();break;
+   case 'copyReport':copyReport();break;
+   case 'medAsk':{const id=b.dataset.id;const m=S.reminders.find(x=>x.id===id);confirmModal(esc(tookQ(m)),'','हो, '+took(m),'होइन',()=>markRem(id,'taken'));say(tookQ(m));break}
+   case 'medSkip':markRem(b.dataset.id,'skipped');break;
+   case 'remDone':{const r=S.reminders.find(x=>x.id===b.dataset.id);if(r.type==='med'){confirmModal(esc(tookQ(r)),'','हो, '+took(r),'होइन',()=>markRem(r.id,'taken'))}else markRem(r.id,'done');break}
+   case 'remLater':snooze(b.dataset.id);break;
+   case 'remSkip':markRem(b.dataset.id,'skipped');break;
+   case 'remCheck':{const id=b.dataset.id;const k=dkey(new Date());S.log[k]=S.log[k]||{};S.log[k][id]={st:'done',t:Date.now()};save();ovEl.innerHTML='';newFlow(null,'manual');awaiting={type:'num'};go('add');break}
+   case 'mYes':{const cb=confirmModal.cb;confirmModal.cb=null;ovEl.innerHTML='';awaiting=awaiting&&awaiting.type==='share'?null:awaiting;if(cb)cb();break}
+   case 'mNo':ovEl.innerHTML='';confirmModal.cb=null;if(awaiting&&awaiting.type==='share')awaiting=null;break;
+   case 'edit':go('edit',b.dataset.id);break;
+   case 'saveEdit':{const r=S.readings.find(x=>x.id===b.dataset.id);const v=parseFloat($('#edVal').value);if(!v){toast('अंक लेख्नुहोस्।');break}
+     r.v=Math.round(toMg(v,S.profile.unit)*10)/10;r.timing=$('#edTime').value;r.note=$('#edNote').value.trim();r.edited=Date.now();save();toast('सच्याइयो।');go('report');break}
+   case 'askDelete':{const id=b.dataset.id;confirmModal('यो जाँच मेटाउने?','मेटाएपछि फर्काउन मिल्दैन।','हो, मेटाउनुहोस्','होइन',()=>{S.readings=S.readings.filter(x=>x.id!==id);save();toast('मेटाइयो।');go('report')});break}
+   case 'addRem':{const l=$('#r_label').value.trim();const tm=$('#r_time').value;if(!l||!tm){toast('नाम र समय लेख्नुहोस्।');break}
+     readProfile();const ty=$('#r_type').value;S.reminders.push({id:uid(),type:ty==='insulin'?'med':ty,insulin:ty==='insulin',label:l,time:tm,note:$('#r_note').value.trim(),on:true});save();render();toast('सम्झना थपियो।');break}
+   case 'delRem':{const id=b.dataset.id;confirmModal('यो सम्झना हटाउने?','','हो, हटाउनुहोस्','होइन',()=>{S.reminders=S.reminders.filter(x=>x.id!==id);save();render()});break}
+   case 'saveProfile':readProfile();S.profile.setupDone=true;save();toast('सेटिङ राखियो।');go('home');break;
+   case 'testVoice':pickVoice();say(`नमस्ते ${S.profile.name}! म तपाईंको मधुमेह साथी हुँ।`);render();break;
+   case 'backup':{const txt=JSON.stringify(S);const ta=$('#bk_in');try{navigator.clipboard.writeText(txt).then(()=>toast('ब्याकअप कपी भयो। सुरक्षित ठाउँमा टाँसेर राख्नुहोस्।'),()=>{ta.value=txt;ta.select();toast('ब्याकअप तल देखियो — कपी गर्नुहोस्।')})}catch(e){ta.value=txt;ta.select()}break}
+   case 'restore':{const v=$('#bk_in').value.trim();let d;try{d=JSON.parse(v)}catch(e){toast('ब्याकअप पढ्न सकिएन। पूरा पाठ टाँस्नुहोस्।');break}
+     if(!d||!Array.isArray(d.readings)){toast('यो ब्याकअप होइन।');break}
+     confirmModal('ब्याकअप फर्काउने?','अहिलेको रेकर्डको सट्टा ब्याकअपको रेकर्ड राखिन्छ।','हो, फर्काउनुहोस्','होइन',()=>{let ok=true;try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){ok=false}if(ok){load()}else{S=Object.assign(JSON.parse(JSON.stringify(DEF)),d)}save();toast('ब्याकअप फर्कियो।');go('home')});break}
+   case 'demo':demo();break;
+   case 'clearDemo':S.readings=S.readings.filter(r=>!r.demo);S.reminders=S.reminders.filter(r=>!r.demo);save();render();toast('नमुना मेटाइयो।');break;
+  }
+});
+document.addEventListener('submit',e=>{
+  const f=e.target.closest('[data-form="typed"]');if(!f) return;e.preventDefault();
+  const v=$('#typedIn').value.trim();if(!v) return;V.heard=v;V.done=true;handleUtterance(v);const i=$('#typedIn');if(i)i.value='';
+});
+document.addEventListener('change',e=>{
+  if(e.target.id==='p_country'){const c=COUNTRY[e.target.value];if(c&&c[1]) $('#p_em').value=c[1]; else if(e.target.value==='other') $('#p_em').focus();}
+});
+
+/* ---------- reminder loop ---------- */
+const shownRem=new Set();
+function tick(){
+  const now=Date.now();
+  if(S.followUp&&S.followUp.at<=now&&!S.followUp.alerted){S.followUp.alerted=true;save();if(view==='home')render();
+    if(!ovEl.innerHTML){ovEl.innerHTML=`<div class="ov" role="alertdialog" aria-modal="true"><div class="sheet"><h2>फेरि जाँच गर्ने समय भयो</h2><p>चिनी कम भएको १५ मिनेट भयो। अहिले फेरि जाँच गर्नुहोस्।</p><button class="btn primary" data-act="add">${ic('drop')} अहिले जाँच लेख्नुहोस्</button><button class="btn slim" data-act="mNo">बन्द गर्नुहोस्</button></div></div>`;say('आमा, फेरि चिनी जाँच गर्ने समय भयो।')}}
+  const t=$('#fuTimer');if(t&&S.followUp){t.textContent=np(Math.max(0,Math.ceil((S.followUp.at-now)/60000)))+' मिनेट'}
+  if(ovEl.innerHTML) return;
+  for(const r of todayReminders()){
+    if(remStatus(r)!=='due'||shownRem.has(r.id)) continue;
+    if(S.snooze[r.id]&&S.snooze[r.id]>now) continue;
+    {const [h,m]=r.time.split(':').map(Number);const at=new Date();at.setHours(h,m,0,0);if(now-at.getTime()>3*36e5) continue;}
+    shownRem.add(r.id);showReminder(r);break;
+  }
+}
+function showReminder(r){
+  const isMed=r.type==='med';
+  const msg=r.insulin?`आमा, इन्सुलिन लिने समय भएको छ। कृपया डाक्टरले भन्नुभएको मात्रामा मात्र लिनुहोस्।`:isMed?`आमा, तपाईंको औषधि खाने समय भएको छ। कृपया डाक्टरले लेखिदिनुभएको निर्देशनअनुसार औषधि लिनुहोस्।`:r.type==='check'?'आमा, चिनी जाँच गर्ने समय भयो।':r.type==='meal'?'आमा, खाना खाने समय भयो।':`आमा, ${r.label} को समय भयो।`;
+  awaiting={type:isMed?'med':'none',id:r.id};
+  ovEl.innerHTML=`<div class="ov" role="alertdialog" aria-modal="true"><div class="sheet"><span class="level lv-routine">${REMT[r.type]}को सम्झना · ${timeStrNp(r.time)}</span><h2>${esc(r.label)}</h2><p class="guide">${msg}</p>${r.note?`<p class="plan">${esc(r.note)}</p>`:''}
+   ${r.type==='check'?`<button class="btn primary" data-act="remCheck" data-id="${r.id}">${ic('drop')} अहिले जाँच लेख्नुहोस्</button>`:`<button class="btn primary" data-act="remDone" data-id="${r.id}">${ic('check')} भयो</button>`}
+   <button class="btn" data-act="remLater" data-id="${r.id}">${ic('clock')} पछि सम्झाउनु (१५ मिनेट)</button>
+   ${isMed?`<button class="btn" data-act="remSkip" data-id="${r.id}">${notTook(r)}</button>`:''}
+   ${SR&&!micBroken?`<button class="btn soft slim" data-act="mic">${ic('mic')} बोलेर भन्नुहोस्</button>`:''}</div></div>`;
+  say(msg);
+}
+
+/* ---------- render ---------- */
+function render(){
+  renderTop();
+  const map={home:homeView,add:()=>F?addView():homeView(),result:resultView,today:todayView,meds:medsView,report:reportView,help:helpView,emerg:emergencyView,edit:editView,family:familyView};
+  main.innerHTML=(map[view]||homeView)();
+  if(V&&ovEl.innerHTML) renderVoice();
+}
+load();
+// Requested medication schedule: morning medicine + insulin at 11:00, evening medicine at 21:00.
+if(!S.seededMeds1){
+  const want=[{id:'am-med',type:'med',label:'बिहानको औषधि',time:'11:00',note:'डाक्टरले लेखिदिनुभएको निर्देशनअनुसार'},
+              {id:'am-ins',type:'med',insulin:true,label:'बिहानको इन्सुलिन',time:'11:00',note:'डाक्टरले भन्नुभएको मात्रामा मात्र'},
+              {id:'pm-med',type:'med',label:'बेलुकाको औषधि',time:'21:00',note:'डाक्टरले लेखिदिनुभएको निर्देशनअनुसार'}];
+  S.reminders=S.reminders.filter(r=>!(r.demo&&r.type==='med'));
+  want.forEach(w=>{if(!S.reminders.some(r=>r.id===w.id)) S.reminders.push(Object.assign({on:true},w))});
+  if(S.profile.insulin==='unknown') S.profile.insulin='yes';
+  S.seededMeds1=true;save();
+}
+render();setInterval(tick,15000);setTimeout(tick,1500);
+// expose pure helpers for testing
+
+})();
+</script>
+
+</body>
+</html>
